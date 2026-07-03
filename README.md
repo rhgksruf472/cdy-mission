@@ -72,7 +72,7 @@ codyssey/mission-01/
 | 버전 | 실측 결과 | 근거 |
 |---|---|---|
 | v1 (간단 지시) | 확인 질문 없이 톤·형식을 임의로 가정해 메일 2버전을 바로 완성 | [`v1-test-raw.md`](codyssey/mission-01/system-design/v1-test-raw.md) |
-| v2 (단계적 추론 유도) | Few-shot·Knowledge 없이 시스템 프롬프트만으로도 확인 질문 3개를 먼저 제시하고 멈춤(임의로 완성하지 않음) | [`v2-pure-raw.md`](codyssey/mission-01/system-design/v2-pure-raw.md) |
+| v2 (단계적 추론 유도) | 확인 질문 3개를 먼저 제시하고 멈춤(임의로 완성하지 않음) | [`v2-test-raw.md`](codyssey/mission-01/system-design/v2-test-raw.md) |
 
 재현성: 둘 다 Claude Sonnet 4.6 / 유료 / 웹 채팅(새 대화, Claude Projects·Knowledge 미사용) / 2026-07-02 / 작업량 낮음 조건으로 실측.
 
