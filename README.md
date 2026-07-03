@@ -67,14 +67,15 @@ codyssey/mission-01/
 
 ### 단계적 추론 유도 (v1 → v2) — 실측 비교
 
-같은 모호한 입력(Few-shot 예시 3)을 v1(간단 지시)과 v2(단계적 추론 유도)에 각각 실제로 적용해 비교했습니다.
+같은 모호한 입력(Few-shot 예시 3)을 v1(간단 지시)과 v2(단계적 추론 유도)에 각각 실제로 적용해 비교했습니다. 과제 요구사항이 "단계적 추론 유도 기법" 자체의 효과를 보는 것이므로, v2는 Few-shot·Knowledge 없이 순수 시스템 프롬프트만 적용한 조건으로 재검증했습니다.
 
 | 버전 | 실측 결과 | 근거 |
 |---|---|---|
 | v1 (간단 지시) | 확인 질문 없이 톤·형식을 임의로 가정해 메일 2버전을 바로 완성 | [`v1-test-raw.md`](codyssey/mission-01/system-design/v1-test-raw.md) |
-| v2 (단계적 추론 유도) | 확인 질문 3개를 먼저 제시하고 멈춤(임의로 완성하지 않음) | [`v2-example3-raw.md`](codyssey/mission-01/system-design/v2-example3-raw.md) |
+| v2 — 1차 (Knowledge 포함, 참고용) | 확인 질문 3개 제시 후 멈춤. 단, Claude Projects Knowledge에 Few-shot 예시가 첨부되어 있어 결과가 예시와 완전히 동일하게 나온 것이 프롬프트 효과인지 Knowledge 효과인지 분리 안 됨 | [`v2-example3-raw.md`](codyssey/mission-01/system-design/v2-example3-raw.md) |
+| **v2 — 2차 (순수 재검증, 채택)** | Few-shot·Knowledge 전혀 없이 시스템 프롬프트만으로도 확인 질문 3개를 먼저 제시하고 멈춤 — **단계적 추론 유도 기법 자체의 순수한 효과로 확인** | [`v2-pure-raw.md`](codyssey/mission-01/system-design/v2-pure-raw.md) |
 
-재현성: 둘 다 Claude Sonnet 4.6 / 유료 / 2026-07-02 / 작업량 낮음 조건으로 실측. (v2는 Claude Projects "다은" 봇의 Knowledge에 올라간 Few-shot 예시 검색 효과가 결과에 일부 섞였을 가능성을 문서에 한계로 명시)
+재현성: 전부 Claude Sonnet 4.6 / 유료 / 2026-07-02 / 작업량 낮음 조건으로 실측. (2차 재검증은 Claude Projects·Knowledge를 전혀 사용하지 않은 새 채팅에서 진행)
 
 ### 환각(Hallucination) 검증 — 6문항 실측
 
