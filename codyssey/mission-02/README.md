@@ -1,7 +1,6 @@
 # Codyssey Mission 02 — 멀티모달 콘텐츠 제작
 
 > 과제 원문: [`codyssey/mission-02/codyssey.md`](codyssey/mission-02/codyssey.md)
-> 요구사항 1:1 체크리스트: [`codyssey/mission-02/requirements-checklist.md`](codyssey/mission-02/requirements-checklist.md)
 
 ## 미션 요약
 
@@ -19,7 +18,6 @@
 ```
 codyssey/mission-02/
 ├── codyssey.md                    과제 원문
-├── requirements-checklist.md      요구사항 원문 1:1 대조 체크리스트
 └── storyboard/
     ├── storyboard.md              기획 문서(스토리보드) — 씬 구성·프롬프트·실측 결과 전체 기록
     ├── CraftFit_ad_final.mp4      최종 광고 영상 — 16:9 (필수 산출물)

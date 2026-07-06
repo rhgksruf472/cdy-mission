@@ -1,7 +1,6 @@
 # Codyssey Mission 01 — LLM 프롬프트 엔지니어링
 
 > 과제 원문: [`codyssey/mission-01/codyssey.md`](codyssey/mission-01/codyssey.md)
-> 요구사항 1:1 체크리스트: [`codyssey/mission-01/requirements-checklist.md`](codyssey/mission-01/requirements-checklist.md)
 
 ## 미션 요약
 
@@ -18,8 +17,6 @@
 ```
 codyssey/mission-01/
 ├── codyssey.md                    과제 원문
-├── requirements-checklist.md      요구사항 원문 1:1 대조 체크리스트
-├── QnA.md                         예상 질문 자체 답변 연습 기록
 ├── model-comparison/              산출물 1 — 모델 비교·선정 보고서
 ├── system-design/                 산출물 2 — 시스템 설계 문서
 ├── execution-log/                 산출물 3 — 실행 로그(10턴 대화)
