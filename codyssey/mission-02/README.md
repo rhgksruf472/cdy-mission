@@ -20,18 +20,16 @@ codyssey/mission-02/
 ├── codyssey.md                    과제 원문
 └── storyboard/
     ├── storyboard.md              기획 문서(스토리보드) — 씬 구성·프롬프트·실측 결과 전체 기록
-    ├── CraftFit_ad_final.mp4      최종 광고 영상 — 16:9 (필수 산출물)
-    ├── CraftFit_ad_final_9x16.mp4 최종 광고 영상 — 9:16 (보너스 3)
-    ├── CraftFit_ad_final_1x1.mp4  최종 광고 영상 — 1:1 (보너스 3)
+    ├── storyboard.pdf             기획 문서 PDF (필수 산출물)
+    ├── final/                     ★ 평가자에게 바로 보여줄 완성 광고 영상 3종(16:9/9:16/1:1)
     ├── image/                     최종 채택 이미지 4장 (GPT Image 2)
     ├── video/                     최종 채택 씬별 영상 4개 (Google Vids·Veo 3.1)
     ├── voice/                     나레이션 음성 4개 + 원본(raw) (ElevenLabs)
     ├── bonus1/                    보너스 1 — 립싱크 인물 사진·음성·영상
-    ├── scene01-video-v1/v2.mp4    Sora 2 Pro 시도분(도구 비교 실측 자료, 보너스 2 근거)
-    └── scene0*-video-vids-v*.mp4  씬별 영상 반복 버전(실패·중간본, 프롬프트 수정 근거)
+    └── raw-logs/                  실패·중간 버전(Sora 시도분, 씬2 영상 v1~v3, 씬4 이미지 v1) — 프롬프트 수정·도구 비교 근거
 ```
 
-최종 채택 파일은 `image/`·`video/`·`voice/` 폴더에 정리했고, 실패·중간 버전은 `storyboard/` 루트에 그대로 남겨 프롬프트 수정 전/후 비교의 원본 증거로 사용합니다.
+최종 채택 파일은 성격별 폴더(`final/`·`image/`·`video/`·`voice/`·`bonus1/`)에 정리했고, 실패·중간 버전은 `raw-logs/`에 별도 보존해 프롬프트 수정 전/후 비교의 원본 증거로 사용합니다. 평가 시 보여드릴 영상은 `final/` 폴더 하나만 열어보시면 됩니다.
 
 ---
 
@@ -69,9 +67,9 @@ codyssey/mission-02/
 
 | 파일 | 화면비 | 스펙 |
 |---|---|---|
-| [`CraftFit_ad_final.mp4`](codyssey/mission-02/storyboard/CraftFit_ad_final.mp4) | 16:9 | 1920x1080 / H.264 / 30fps / AAC / 10.000초 |
-| [`CraftFit_ad_final_9x16.mp4`](codyssey/mission-02/storyboard/CraftFit_ad_final_9x16.mp4) | 9:16 | 1080x1920 / H.264 / 30fps / AAC / 10.000초 |
-| [`CraftFit_ad_final_1x1.mp4`](codyssey/mission-02/storyboard/CraftFit_ad_final_1x1.mp4) | 1:1 | 1080x1080 / H.264 / 30fps / AAC / 10.000초 |
+| [`CraftFit_ad_final.mp4`](codyssey/mission-02/storyboard/final/CraftFit_ad_final.mp4) | 16:9 | 1920x1080 / H.264 / 30fps / AAC / 10.000초 |
+| [`CraftFit_ad_final_9x16.mp4`](codyssey/mission-02/storyboard/final/CraftFit_ad_final_9x16.mp4) | 9:16 | 1080x1920 / H.264 / 30fps / AAC / 10.000초 |
+| [`CraftFit_ad_final_1x1.mp4`](codyssey/mission-02/storyboard/final/CraftFit_ad_final_1x1.mp4) | 1:1 | 1080x1080 / H.264 / 30fps / AAC / 10.000초 |
 
 **통합 편집 방식**: ffmpeg로 씬별 영상을 나레이션 길이에 맞춰 트림 → 원본 앰비언트 오디오를 나레이션으로 교체 → 4씬 concat. 9:16·1:1 버전은 새로 생성하지 않고 16:9 소스를 중앙 크롭해서 제작(사전에 각 씬 프레임을 확인해 "CraftFit" 워드마크 등 핵심 요소가 잘리지 않는지 검증). 상세 과정은 [`storyboard.md` 9번 섹션](codyssey/mission-02/storyboard/storyboard.md)에 기록.
 
