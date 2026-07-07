@@ -1,6 +1,6 @@
 # Codyssey Mission 02 — 멀티모달 콘텐츠 제작
 
-> 과제 원문: [`codyssey/mission-02/codyssey.md`](codyssey/mission-02/codyssey.md)
+> 과제 원문: [`codyssey/mission-02/codyssey.md`](codyssey.md)
 
 ## 미션 요약
 
@@ -35,7 +35,7 @@ codyssey/mission-02/
 
 ## 산출물 1 — 스토리보드(기획) 문서
 
-📄 최종 문서: [`storyboard/storyboard.pdf`](codyssey/mission-02/storyboard/storyboard.pdf) (PDF, 필수 산출물) · 원본: [`storyboard/storyboard.md`](codyssey/mission-02/storyboard/storyboard.md)
+📄 최종 문서: [`storyboard/storyboard.pdf`](storyboard/storyboard.pdf) (PDF, 필수 산출물) · 원본: [`storyboard/storyboard.md`](storyboard/storyboard.md)
 
 브랜드 아이덴티티, 캠페인 목표/핵심 메시지, 씬별 필수 필드(길이/목표 메시지/화면 구성/내레이션/사용 도구/입력 프롬프트/출력 요약/파일명)를 전부 포함합니다.
 
@@ -54,12 +54,12 @@ codyssey/mission-02/
 | 영상 | Google Vids (Veo 3.1) | Sora 2 Pro(텍스트 전용) 시도 → 이미지-영상 화풍 불일치·UI 텍스트 깨짐 확인 → image-to-video를 지원하는 Google Vids로 전환 |
 | 음성 | ElevenLabs (Eleven Multilingual v2) | OpenAI TTS-1 HD(nova, 인위적 AI톤 문제) → Typecast(무료 플랜 다운로드 불가 확인) → ElevenLabs(voice: Yooni, 사용자 직접 청취 후 선정)로 최종 전환 |
 
-**대체 도구(제약 사항 "도구 접근성 대응")**: 이미지(Midjourney/Firefly, 미사용 후보) / 영상(Sora 2 Pro, 실사용 이력) / 음성(Typecast·TTS-1 HD, 실사용 이력) — 상세는 [`storyboard.md` 4번 섹션](codyssey/mission-02/storyboard/storyboard.md).
+**대체 도구(제약 사항 "도구 접근성 대응")**: 이미지(Midjourney/Firefly, 미사용 후보) / 영상(Sora 2 Pro, 실사용 이력) / 음성(Typecast·TTS-1 HD, 실사용 이력) — 상세는 [`storyboard.md` 4번 섹션](storyboard/storyboard.md).
 
 ### 프롬프트 수정 전/후 — 대표 사례 2건
 
-1. **씬4 이미지 — 워드마크 누락** ([상세](codyssey/mission-02/storyboard/storyboard.md#씬-4-프롬프트-수정-전후-과제-요구사항-최소-1개-씬-프롬프트-수정-전후-대응)): 워드마크 위치를 구체적으로 지정하지 않아 누락 → "화면 최상단 별도 헤더 영역"으로 위치를 명시하자 해결.
-2. **씬2 영상 — v1~v4 4회 반복** ([상세](codyssey/mission-02/storyboard/storyboard.md#씬-2-프롬프트-수정-전후--빈-흰-화면-문제)): 빈 화면(아이콘 목록 미명시) → 아이콘 등장했으나 폰 베젤 소실("shatter" 적용 범위 미지정) → 베젤 복구했으나 워드마크 중복("유지하라" 지시가 원본 복제와 별도 처리됨) → 개수 제약(exactly ONE)으로 최종 해결.
+1. **씬4 이미지 — 워드마크 누락** ([상세](storyboard/storyboard.md#씬-4-프롬프트-수정-전후-과제-요구사항-최소-1개-씬-프롬프트-수정-전후-대응)): 워드마크 위치를 구체적으로 지정하지 않아 누락 → "화면 최상단 별도 헤더 영역"으로 위치를 명시하자 해결.
+2. **씬2 영상 — v1~v4 4회 반복** ([상세](storyboard/storyboard.md#씬-2-프롬프트-수정-전후--빈-흰-화면-문제)): 빈 화면(아이콘 목록 미명시) → 아이콘 등장했으나 폰 베젤 소실("shatter" 적용 범위 미지정) → 베젤 복구했으나 워드마크 중복("유지하라" 지시가 원본 복제와 별도 처리됨) → 개수 제약(exactly ONE)으로 최종 해결.
 
 ---
 
@@ -67,11 +67,11 @@ codyssey/mission-02/
 
 | 파일 | 화면비 | 스펙 |
 |---|---|---|
-| [`CraftFit_ad_final.mp4`](codyssey/mission-02/storyboard/final/CraftFit_ad_final.mp4) | 16:9 | 1920x1080 / H.264 / 30fps / AAC / 10.000초 |
-| [`CraftFit_ad_final_9x16.mp4`](codyssey/mission-02/storyboard/final/CraftFit_ad_final_9x16.mp4) | 9:16 | 1080x1920 / H.264 / 30fps / AAC / 10.000초 |
-| [`CraftFit_ad_final_1x1.mp4`](codyssey/mission-02/storyboard/final/CraftFit_ad_final_1x1.mp4) | 1:1 | 1080x1080 / H.264 / 30fps / AAC / 10.000초 |
+| [`CraftFit_ad_final.mp4`](storyboard/final/CraftFit_ad_final.mp4) | 16:9 | 1920x1080 / H.264 / 30fps / AAC / 10.000초 |
+| [`CraftFit_ad_final_9x16.mp4`](storyboard/final/CraftFit_ad_final_9x16.mp4) | 9:16 | 1080x1920 / H.264 / 30fps / AAC / 10.000초 |
+| [`CraftFit_ad_final_1x1.mp4`](storyboard/final/CraftFit_ad_final_1x1.mp4) | 1:1 | 1080x1080 / H.264 / 30fps / AAC / 10.000초 |
 
-**통합 편집 방식**: ffmpeg로 씬별 영상을 나레이션 길이에 맞춰 트림 → 원본 앰비언트 오디오를 나레이션으로 교체 → 4씬 concat. 9:16·1:1 버전은 새로 생성하지 않고 16:9 소스를 중앙 크롭해서 제작(사전에 각 씬 프레임을 확인해 "CraftFit" 워드마크 등 핵심 요소가 잘리지 않는지 검증). 상세 과정은 [`storyboard.md` 9번 섹션](codyssey/mission-02/storyboard/storyboard.md)에 기록.
+**통합 편집 방식**: ffmpeg로 씬별 영상을 나레이션 길이에 맞춰 트림 → 원본 앰비언트 오디오를 나레이션으로 교체 → 4씬 concat. 9:16·1:1 버전은 새로 생성하지 않고 16:9 소스를 중앙 크롭해서 제작(사전에 각 씬 프레임을 확인해 "CraftFit" 워드마크 등 핵심 요소가 잘리지 않는지 검증). 상세 과정은 [`storyboard.md` 9번 섹션](storyboard/storyboard.md)에 기록.
 
 **편집 중 발견/수정한 문제**:
 - 필러박스 크롭 계획 정정 — 실제 프레임 확인 결과 검은 영역이 여백이 아니라 워드마크 등 실제 콘텐츠였음을 발견, 크롭 없이 원본 그대로 사용.
@@ -83,8 +83,8 @@ codyssey/mission-02/
 
 | # | 내용 | 결과 |
 |---|---|---|
-| 보너스 1 — 립싱크 | 별도 인물 발화 씬 추가: GPT Image 2(인물 사진) + ElevenLabs(음성) + Magic Hour Talking Photo(립싱크) | [`bonus1/`](codyssey/mission-02/storyboard/bonus1/) — 640x640 / 7.848초, 프레임별 입 모양 변화로 립싱크 작동 확인 |
-| 보너스 2 — 다른 도구로 재제작 | 씬1을 Sora 2 Pro와 Google Vids 두 도구로 각각 제작해 비교 | [`storyboard.md` 11번](codyssey/mission-02/storyboard/storyboard.md) — image-to-video 지원 여부가 화풍 일관성·텍스트 정확도를 좌우함을 확인 |
+| 보너스 1 — 립싱크 | 별도 인물 발화 씬 추가: GPT Image 2(인물 사진) + ElevenLabs(음성) + Magic Hour Talking Photo(립싱크) | [`bonus1/`](storyboard/bonus1/) — 640x640 / 7.848초, 프레임별 입 모양 변화로 립싱크 작동 확인 |
+| 보너스 2 — 다른 도구로 재제작 | 씬1을 Sora 2 Pro와 Google Vids 두 도구로 각각 제작해 비교 | [`storyboard.md` 11번](storyboard/storyboard.md) — image-to-video 지원 여부가 화풍 일관성·텍스트 정확도를 좌우함을 확인 |
 | 보너스 3 — 화면비 버전 추가 | 16:9(필수) 외 9:16·1:1 버전 추가 제작 | 위 "산출물 2" 표 참고 |
 
 ---

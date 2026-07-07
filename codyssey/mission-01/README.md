@@ -1,6 +1,6 @@
 # Codyssey Mission 01 — LLM 프롬프트 엔지니어링
 
-> 과제 원문: [`codyssey/mission-01/codyssey.md`](codyssey/mission-01/codyssey.md)
+> 과제 원문: [`codyssey/mission-01/codyssey.md`](codyssey.md)
 
 ## 미션 요약
 
@@ -29,9 +29,9 @@ codyssey/mission-01/
 
 ## 산출물 1 — LLM 모델 비교·선정 보고서
 
-📄 최종 문서: [`model-comparison/model-comparison.md`](codyssey/mission-01/model-comparison/model-comparison.md)
-📄 테스트 설계: [`model-comparison/model-comparison-test-design.md`](codyssey/mission-01/model-comparison/model-comparison-test-design.md)
-📄 모델별 원본 출력: [`model-comparison/model-outputs-raw.md`](codyssey/mission-01/model-comparison/model-outputs-raw.md)
+📄 최종 문서: [`model-comparison/model-comparison.md`](model-comparison/model-comparison.md)
+📄 테스트 설계: [`model-comparison/model-comparison-test-design.md`](model-comparison/model-comparison-test-design.md)
+📄 모델별 원본 출력: [`model-comparison/model-outputs-raw.md`](model-comparison/model-outputs-raw.md)
 
 동일한 메일 초안 작성 프롬프트를 3개 모델에 입력하고, 5개 평가 축(형식준수 / 톤 적합성 / 지시사항 반영 / 한국어 자연스러움 / 추가 디테일)으로 채점했습니다.
 
@@ -45,13 +45,13 @@ codyssey/mission-01/
 
 ### 선정 근거와 업무 과업 특성의 연결
 
-메일 초안 작성은 협력사·고객 등 **외부 대상의 공식 커뮤니케이션**이라는 특성을 가집니다. 그래서 (1) 형식·톤이 무너지면 곧바로 대외 신뢰도 문제로 이어지기 때문에 형식준수·톤적합성 두 축을 최소 기준으로 봤고, (2) 이런 메일 작성은 반복적으로 발생하는 업무이기 때문에 사용자가 매번 모든 디테일을 지시하지 않아도 모델이 빠진 부분을 스스로 제안해주는 능력(추가 디테일 축)이 실무 생산성에 직접 기여합니다. Claude Sonnet 4.6은 이 두 특성(대외 신뢰도 요구 + 반복 업무 생산성 요구) 모두에서 만점을 받았기 때문에 선정했습니다. (상세: [`model-comparison.md`](codyssey/mission-01/model-comparison/model-comparison.md) 7절)
+메일 초안 작성은 협력사·고객 등 **외부 대상의 공식 커뮤니케이션**이라는 특성을 가집니다. 그래서 (1) 형식·톤이 무너지면 곧바로 대외 신뢰도 문제로 이어지기 때문에 형식준수·톤적합성 두 축을 최소 기준으로 봤고, (2) 이런 메일 작성은 반복적으로 발생하는 업무이기 때문에 사용자가 매번 모든 디테일을 지시하지 않아도 모델이 빠진 부분을 스스로 제안해주는 능력(추가 디테일 축)이 실무 생산성에 직접 기여합니다. Claude Sonnet 4.6은 이 두 특성(대외 신뢰도 요구 + 반복 업무 생산성 요구) 모두에서 만점을 받았기 때문에 선정했습니다. (상세: [`model-comparison.md`](model-comparison/model-comparison.md) 7절)
 
 ---
 
 ## 산출물 2 — 시스템 설계 문서
 
-📄 최종 문서: [`system-design/system-design.md`](codyssey/mission-01/system-design/system-design.md)
+📄 최종 문서: [`system-design/system-design.md`](system-design/system-design.md)
 
 | 구성 요소 | 내용 |
 |---|---|
@@ -68,14 +68,14 @@ codyssey/mission-01/
 
 | 버전 | 실측 결과 | 근거 |
 |---|---|---|
-| v1 (간단 지시) | 확인 질문 없이 톤·형식을 임의로 가정해 메일 2버전을 바로 완성 | [`v1-test-raw.md`](codyssey/mission-01/system-design/v1-test-raw.md) |
-| v2 (단계적 추론 유도) | 확인 질문 3개를 먼저 제시하고 멈춤(임의로 완성하지 않음) | [`v2-test-raw.md`](codyssey/mission-01/system-design/v2-test-raw.md) |
+| v1 (간단 지시) | 확인 질문 없이 톤·형식을 임의로 가정해 메일 2버전을 바로 완성 | [`v1-test-raw.md`](system-design/v1-test-raw.md) |
+| v2 (단계적 추론 유도) | 확인 질문 3개를 먼저 제시하고 멈춤(임의로 완성하지 않음) | [`v2-test-raw.md`](system-design/v2-test-raw.md) |
 
 재현성: 둘 다 Claude Sonnet 4.6 / 유료 / 웹 채팅(새 대화, Claude Projects·Knowledge 미사용) / 2026-07-02 / 작업량 낮음 조건으로 실측.
 
 ### 환각(Hallucination) 검증 — 6문항 실측
 
-📄 원본 대화: [`hallucination-test-raw.md`](codyssey/mission-01/system-design/hallucination-test-raw.md)
+📄 원본 대화: [`hallucination-test-raw.md`](system-design/hallucination-test-raw.md)
 
 **왜 환각을 "사실 오류"로 정의하고 창작과 구분했는가**: LLM은 확률적 생성 방식(다음 토큰의 확률을 예측해 이어붙임)으로 동작하며, "이 문장이 사실인지 검증하는 단계"가 구조적으로 없습니다. 그래서 사실/수치/정책/계산처럼 **검증 가능한 정답이 실제로 존재하는 영역**에서 근거 없이 확신에 찬 답을 내놓으면, 사용자가 이를 사실로 믿고 잘못된 의사결정을 내릴 위험이 생깁니다.
 
@@ -90,14 +90,14 @@ codyssey/mission-01/
 | 5 | 확인 안 된 과거 사례 | Pass (B) | 존재 여부가 불확실한 전제("작년에도 있었잖아")를 그대로 확정하지 않고 확인 요청 |
 | 6 (추가) | 확정 안 된 보상 방침 | Pass (B) | 법적 구속력이 생기는 고위험 항목에서도 단정하지 않고 확인 요청, 리스크까지 스스로 짚음 |
 
-재현성: Claude Sonnet 4.6 / 유료 / Claude Projects "다은" 봇 / 2026-07-02 / 작업량 낮음. (상세: [`system-design.md`](codyssey/mission-01/system-design/system-design.md) 7절)
+재현성: Claude Sonnet 4.6 / 유료 / Claude Projects "다은" 봇 / 2026-07-02 / 작업량 낮음. (상세: [`system-design.md`](system-design/system-design.md) 7절)
 
 ---
 
 ## 산출물 3 — 실행 로그 (10턴 대화)
 
-📄 정리본: [`execution-log/execution-log.md`](codyssey/mission-01/execution-log/execution-log.md)
-📄 원본 전문: [`execution-log/conversation-log-raw.md`](codyssey/mission-01/execution-log/conversation-log-raw.md)
+📄 정리본: [`execution-log/execution-log.md`](execution-log/execution-log.md)
+📄 원본 전문: [`execution-log/conversation-log-raw.md`](execution-log/conversation-log-raw.md)
 
 "다은"(시스템 프롬프트 v2) 페르소나로 10턴 대화를 수행하며 아래 상황을 모두 포함시켰습니다.
 
@@ -113,14 +113,14 @@ codyssey/mission-01/
 
 | # | 내용 | 근거 |
 |---|---|---|
-| 보너스 1 | Claude Projects에 "다은" 페르소나를 커스텀 인스트럭션으로 배포, 실사용 테스트 완료 | [배포 가이드](codyssey/mission-01/bonus/bonus-1-bot-deployment.md) / [실측 로그](codyssey/mission-01/bonus/bonus-1-result.md) |
-| 보너스 2 | 모델 비교 점수를 인포그래픽으로 시각화 | [생성 프롬프트](codyssey/mission-01/bonus/bonus-2-visualization-prompt.md) / [결과 이미지](codyssey/mission-01/bonus/bonus-2-result.png) |
+| 보너스 1 | Claude Projects에 "다은" 페르소나를 커스텀 인스트럭션으로 배포, 실사용 테스트 완료 | [배포 가이드](bonus/bonus-1-bot-deployment.md) / [실측 로그](bonus/bonus-1-result.md) |
+| 보너스 2 | 모델 비교 점수를 인포그래픽으로 시각화 | [생성 프롬프트](bonus/bonus-2-visualization-prompt.md) / [결과 이미지](bonus/bonus-2-result.png) |
 
 ---
 
 ## 심층 인터뷰: 운영·확장 전략
 
-이 시스템을 실제로 운영한다고 가정했을 때 마주칠 세 가지 상황에 대한 대응 전략입니다. (상세: [`system-design.md`](codyssey/mission-01/system-design/system-design.md) 9절)
+이 시스템을 실제로 운영한다고 가정했을 때 마주칠 세 가지 상황에 대한 대응 전략입니다. (상세: [`system-design.md`](system-design/system-design.md) 9절)
 
 ### 1. 비용 제약 시 전략 — 무료 모델만 써야 한다면?
 
@@ -166,4 +166,4 @@ codyssey/mission-01/
 
 ## 산출물 자체 검증 (재감사)
 
-산출물을 완료 처리한 뒤에도, 문서에 적힌 AI 행동 서술이 실제 raw 로그로 뒷받침되는지 재검토하는 과정을 별도로 거쳤습니다. 이 과정에서 근거 없이 서술되어 있던 3곳(v1 문제점 서술, 환각 검증 5문항, v2-예시3 출력 비교)을 발견해 전부 실제 재테스트 결과로 교체했습니다. 이 재검증 과정 자체가 미션 목표 5번("생성 결과를 테스트로 검증하고, 프롬프트를 반복 개선하는 과정을 재현 가능하게 설명할 수 있다")에 해당하는 실습이었습니다. 상세 이력은 [`system-design/system-design.md`](codyssey/mission-01/system-design/system-design.md)의 "수정" 표기 부분을 참고하세요.
+산출물을 완료 처리한 뒤에도, 문서에 적힌 AI 행동 서술이 실제 raw 로그로 뒷받침되는지 재검토하는 과정을 별도로 거쳤습니다. 이 과정에서 근거 없이 서술되어 있던 3곳(v1 문제점 서술, 환각 검증 5문항, v2-예시3 출력 비교)을 발견해 전부 실제 재테스트 결과로 교체했습니다. 이 재검증 과정 자체가 미션 목표 5번("생성 결과를 테스트로 검증하고, 프롬프트를 반복 개선하는 과정을 재현 가능하게 설명할 수 있다")에 해당하는 실습이었습니다. 상세 이력은 [`system-design/system-design.md`](system-design/system-design.md)의 "수정" 표기 부분을 참고하세요.
