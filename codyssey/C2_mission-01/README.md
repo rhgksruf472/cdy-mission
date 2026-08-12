@@ -85,6 +85,32 @@ codyssey/C2_mission-01/
 * Add README with project title
 ```
 
+## 제출용 스크린샷
+
+과제 원문(`codyssey.md` "제출물" 항목: 개발 환경 설정 / 프로그램 실행 결과 / `git log` 그래프) 기준으로 정리했습니다. 전부 [`picture/`](picture/) 폴더에 있습니다.
+
+### 개발 환경 설정 (VSCode, Python 버전, Git 설정)
+
+| 스크린샷 | 증빙 내용 |
+|---|---|
+| [python,git,email log.png](<picture/python,git,email log.png>) | `python --version`(3.11.9) → `git config user.name`(rhgksruf472) → `git config user.email` 순으로 터미널에서 확인. 같은 스크롤 위쪽에 `print('hello')` 실행 결과와 `git log --oneline --graph` 결과도 함께 담겨 있음 |
+| [print(hello).png](<picture/print(hello).png>) | `python -c "print('hello')"` 실행 → `hello` 출력 확인 |
+
+### git log --oneline --graph 결과
+
+| 스크린샷 | 증빙 내용 |
+|---|---|
+| [git log --oneline --graph.png](<picture/git log --oneline --graph.png>) | 커밋 15개 전체 + `feature/show-list` → `main` 병합 그래프(`Merge branch 'feature/show-list' into main`) 확인 |
+
+### 프로그램 실행 결과 (메뉴, 프롬프트 추가, 목록, 검색)
+
+| 스크린샷 | 증빙 내용 |
+|---|---|
+| [prompt-manager01.png](picture/prompt-manager01.png) | `python main.py` 실행 → 13개 기능 + 종료(0) 메뉴 출력 |
+| [prompt-manager02.png](picture/prompt-manager02.png) | 메뉴 1번(프롬프트 추가) 선택 → 제목/내용 입력, 카테고리 2번(이미지 생성) 선택 → "프롬프트가 추가되었습니다!" 확인 |
+| [prompt-manager03.png](picture/prompt-manager03.png) | 메뉴 2번(목록) 선택 → 기본 등록 프롬프트 4개 출력. 프로그램을 재실행한 뒤 캡처되어, 직전에 추가했던 테스트 프롬프트는 보이지 않음 — "실행 중에만 유지, 종료 시 초기화" 요구사항이 그대로 드러남 |
+| [prompt-manager04.png](picture/prompt-manager04.png) | (같은 실행 내에서 이어서) 메뉴 4번(검색) 선택 → 검색어 "다은" 입력 → 1개 결과 출력 |
+
 ## 재현성 기록
 
 | 항목 | 값 |
