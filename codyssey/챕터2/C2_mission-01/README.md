@@ -32,7 +32,7 @@
 이번 미션의 핵심은 AI 활용이 아니라 **Python 기초 문법**과 **Git 명령어**(`init` / `add` / `commit` / `push` / `pull` / `checkout` / `clone` / `merge`)를 직접 손으로 익히는 것입니다.
 
 - 프롬프트 **추가 / 목록 / 카테고리별 조회 / 검색 / 상세 보기 / 즐겨찾기** 6가지 핵심 기능
-- 이전 미션(mission-01, mission-02)에서 **실제로 작성했던 프롬프트 4개**를 기본 데이터로 재사용
+- 챕터1 이전 미션(C1_mission-01, C1_mission-02)에서 **실제로 작성했던 프롬프트 4개**를 기본 데이터로 재사용
 - "목록 보기" 기능은 별도 브랜치에서 작업 후 main으로 병합
 - **보너스 1** — JSON 저장/불러오기, 카테고리별 Markdown 내보내기
 - **보너스 2** — 프롬프트 수정/삭제(CRUD), 조회수 기록, 조회수 Top 정렬
@@ -47,7 +47,7 @@
 ├── README.md                   프로그램 설명·실행 방법·기능 목록
 └── .gitignore
 
-📂 cdy/codyssey/C2_mission-01/  ← 이 폴더 (학습 기록)
+📂 cdy/codyssey/챕터2/C2_mission-01/  ← 이 폴더 (학습 기록)
 ├── README.md                   이 문서 — 평가자용 미션 정리
 ├── codyssey.md                 과제 원문
 └── picture/                    제출용 스크린샷 7장
@@ -99,10 +99,10 @@ python main.py
 
 | 제목 | 카테고리 | 출처 |
 |---|---|---|
-| 비즈니스 메일 작성 코치 (다은) 시스템 프롬프트 | 페르소나 | [mission-01 system-design.md](../mission-01/system-design/system-design.md) |
-| CraftFit 광고 씬1 이미지 생성 프롬프트 (GPT Image 2) | 이미지 생성 | [mission-02 storyboard.md](../mission-02/storyboard/storyboard.md) |
-| CraftFit 광고 씬1 영상 생성 프롬프트 v2 (Sora 2 Pro) | 영상 생성 | [mission-02 storyboard.md](../mission-02/storyboard/storyboard.md) |
-| LLM 모델 비교 결과 인포그래픽 프롬프트 | 이미지 생성 | [mission-01 bonus-2.md](../mission-01/bonus/bonus-2-visualization-prompt.md) |
+| 비즈니스 메일 작성 코치 (다은) 시스템 프롬프트 | 페르소나 | [C1_mission-01 system-design.md](../../챕터1/C1_mission-01/system-design/system-design.md) |
+| CraftFit 광고 씬1 이미지 생성 프롬프트 (GPT Image 2) | 이미지 생성 | [C1_mission-02 storyboard.md](../../챕터1/C1_mission-02/storyboard/storyboard.md) |
+| CraftFit 광고 씬1 영상 생성 프롬프트 v2 (Sora 2 Pro) | 영상 생성 | [C1_mission-02 storyboard.md](../../챕터1/C1_mission-02/storyboard/storyboard.md) |
+| LLM 모델 비교 결과 인포그래픽 프롬프트 | 이미지 생성 | [C1_mission-01 bonus-2.md](../../챕터1/C1_mission-01/bonus/bonus-2-visualization-prompt.md) |
 
 ## Git 작업 기록
 

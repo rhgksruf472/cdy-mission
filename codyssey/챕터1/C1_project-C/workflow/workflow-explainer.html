@@ -1,0 +1,375 @@
+<title>워크플로우가 실제로 돌아가는 법 — Project C</title>
+<style>
+  :root {
+    --bg: #eef1f5;
+    --surface: #ffffff;
+    --surface-2: #f6f8fb;
+    --ink: #18212e;
+    --muted: #5c6a7a;
+    --faint: #8a97a6;
+    --line: #d7dee7;
+    --accent: #e0872b;         /* live signal / data current */
+    --accent-soft: #fbe6d0;
+    --insta: #c24a86;
+    --blog: #2f74c9;
+    --x: #2b3440;
+    --ok: #2f9e6f;
+    --mono: ui-monospace, "Cascadia Code", "SFMono-Regular", Consolas, monospace;
+    --sans: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+    --shadow: 0 1px 2px rgba(20,30,45,.06), 0 8px 24px rgba(20,30,45,.06);
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #0d1420; --surface: #151f2c; --surface-2: #111a26;
+      --ink: #e8eef5; --muted: #9aa8b8; --faint: #6b7a8b; --line: #263441;
+      --accent: #f0a04b; --accent-soft: #3a2a15;
+      --insta: #e169a6; --blog: #5b9be6; --x: #cbd5e1; --ok: #47c08a;
+      --shadow: 0 1px 2px rgba(0,0,0,.3), 0 10px 30px rgba(0,0,0,.35);
+    }
+  }
+  :root[data-theme="light"] {
+    --bg: #eef1f5; --surface: #ffffff; --surface-2: #f6f8fb;
+    --ink: #18212e; --muted: #5c6a7a; --faint: #8a97a6; --line: #d7dee7;
+    --accent: #e0872b; --accent-soft: #fbe6d0;
+    --insta: #c24a86; --blog: #2f74c9; --x: #2b3440; --ok: #2f9e6f;
+    --shadow: 0 1px 2px rgba(20,30,45,.06), 0 8px 24px rgba(20,30,45,.06);
+  }
+  :root[data-theme="dark"] {
+    --bg: #0d1420; --surface: #151f2c; --surface-2: #111a26;
+    --ink: #e8eef5; --muted: #9aa8b8; --faint: #6b7a8b; --line: #263441;
+    --accent: #f0a04b; --accent-soft: #3a2a15;
+    --insta: #e169a6; --blog: #5b9be6; --x: #cbd5e1; --ok: #47c08a;
+    --shadow: 0 1px 2px rgba(0,0,0,.3), 0 10px 30px rgba(0,0,0,.35);
+  }
+
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; background: var(--bg); color: var(--ink);
+    font-family: var(--sans); line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+  .wrap { max-width: 1020px; margin: 0 auto; padding: 32px 20px 64px; }
+
+  header { margin-bottom: 8px; }
+  .eyebrow {
+    font-family: var(--mono); font-size: 12px; letter-spacing: .14em;
+    text-transform: uppercase; color: var(--accent); font-weight: 600;
+    display: inline-flex; align-items: center; gap: 8px;
+  }
+  .tag-preview {
+    font-family: var(--mono); font-size: 11px; letter-spacing: .04em;
+    color: var(--muted); border: 1px solid var(--line); border-radius: 999px;
+    padding: 2px 9px; background: var(--surface);
+  }
+  h1 {
+    font-size: clamp(26px, 4.5vw, 40px); line-height: 1.12; margin: 12px 0 10px;
+    font-weight: 800; letter-spacing: -.02em; text-wrap: balance;
+  }
+  .lede { color: var(--muted); max-width: 62ch; font-size: 16px; margin: 0; }
+
+  /* topic input */
+  .topic {
+    margin: 26px 0 8px; background: var(--surface); border: 1px solid var(--line);
+    border-radius: 14px; padding: 16px 18px; box-shadow: var(--shadow);
+    display: flex; align-items: center; gap: 14px; flex-wrap: wrap;
+  }
+  .topic .k { font-family: var(--mono); font-size: 12px; color: var(--faint); }
+  .topic .v {
+    font-weight: 700; font-size: 17px; color: var(--ink);
+    background: var(--accent-soft); padding: 4px 12px; border-radius: 8px;
+  }
+
+  /* pipeline */
+  .pipe-scroll { overflow-x: auto; padding: 22px 2px 8px; margin: 0 -2px; }
+  .pipe {
+    display: flex; align-items: stretch; gap: 0; min-width: max-content;
+  }
+  .node {
+    flex: 0 0 auto; width: 148px; background: var(--surface);
+    border: 1.5px solid var(--line); border-radius: 13px; padding: 12px 12px 13px;
+    cursor: pointer; text-align: left; color: inherit; font-family: inherit;
+    transition: border-color .2s, box-shadow .2s, transform .2s, background .2s;
+    position: relative;
+  }
+  .node:hover { transform: translateY(-2px); border-color: var(--accent); }
+  .node:focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; }
+  .node .num {
+    font-family: var(--mono); font-size: 11px; color: var(--faint);
+    font-weight: 600; letter-spacing: .05em;
+  }
+  .node .nm { font-weight: 700; font-size: 14px; margin: 3px 0 5px; line-height: 1.25; }
+  .node .tool {
+    font-family: var(--mono); font-size: 10.5px; color: var(--muted);
+    background: var(--surface-2); border: 1px solid var(--line);
+    border-radius: 6px; padding: 2px 6px; display: inline-block;
+  }
+  .node.active {
+    border-color: var(--accent); background: var(--surface);
+    box-shadow: 0 0 0 3px var(--accent-soft), var(--shadow);
+  }
+  .node.done .num::after { content: " ✓"; color: var(--ok); }
+
+  .conn {
+    flex: 0 0 auto; width: 34px; align-self: center; height: 3px;
+    background: var(--line); border-radius: 3px; position: relative; overflow: hidden;
+  }
+  .conn .pulse {
+    position: absolute; top: 0; left: -40%; width: 40%; height: 100%;
+    background: var(--accent); border-radius: 3px; opacity: 0;
+  }
+  .conn.flow .pulse { animation: run .55s ease forwards; }
+  @keyframes run { from { left: -40%; opacity: 1; } to { left: 100%; opacity: 1; } }
+  .conn.filled { background: linear-gradient(90deg, var(--accent), var(--accent)); }
+
+  /* controls */
+  .controls {
+    display: flex; align-items: center; gap: 10px; flex-wrap: wrap;
+    margin: 18px 0 24px;
+  }
+  button.ctl {
+    font-family: inherit; font-size: 14px; font-weight: 600; cursor: pointer;
+    border-radius: 9px; padding: 9px 15px; border: 1px solid var(--line);
+    background: var(--surface); color: var(--ink); transition: background .15s, border-color .15s;
+  }
+  button.ctl:hover { border-color: var(--accent); }
+  button.ctl:focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; }
+  button.ctl.primary { background: var(--accent); border-color: var(--accent); color: #fff; }
+  button.ctl:disabled { opacity: .4; cursor: not-allowed; }
+  .step-ind { font-family: var(--mono); font-size: 13px; color: var(--muted); margin-left: auto; }
+
+  /* detail */
+  .detail {
+    background: var(--surface); border: 1px solid var(--line); border-radius: 16px;
+    box-shadow: var(--shadow); overflow: hidden;
+  }
+  .detail-head {
+    padding: 16px 20px; border-bottom: 1px solid var(--line);
+    display: flex; align-items: baseline; gap: 12px; flex-wrap: wrap;
+    background: var(--surface-2);
+  }
+  .detail-head .dnum { font-family: var(--mono); color: var(--accent); font-weight: 700; }
+  .detail-head h2 { font-size: 19px; margin: 0; font-weight: 800; letter-spacing: -.01em; }
+  .detail-head .dtool {
+    font-family: var(--mono); font-size: 12px; color: var(--muted);
+    border: 1px solid var(--line); border-radius: 6px; padding: 2px 8px; background: var(--surface);
+  }
+  .io { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 0; }
+  .io > div { padding: 18px 20px; border-right: 1px solid var(--line); }
+  .io > div:last-child { border-right: none; }
+  .io .lbl {
+    font-family: var(--mono); font-size: 11px; letter-spacing: .08em; text-transform: uppercase;
+    color: var(--faint); font-weight: 600; margin-bottom: 9px; display: flex; align-items: center; gap: 6px;
+  }
+  .io .arrow { color: var(--accent); font-weight: 800; }
+  .io .content { font-size: 14.5px; color: var(--ink); }
+  .io .content .data {
+    font-family: var(--mono); font-size: 13px; background: var(--surface-2);
+    border: 1px solid var(--line); border-left: 3px solid var(--accent);
+    border-radius: 6px; padding: 9px 11px; margin-top: 4px; white-space: pre-wrap;
+    word-break: break-word; color: var(--ink);
+  }
+  .io .content .data.insta { border-left-color: var(--insta); }
+  .io .content .data.blog { border-left-color: var(--blog); }
+  .io .content .data.x { border-left-color: var(--x); }
+  .measure {
+    display: inline-block; font-family: var(--mono); font-size: 11px; font-weight: 600;
+    color: var(--ok); background: color-mix(in srgb, var(--ok) 14%, transparent);
+    border-radius: 5px; padding: 1px 7px; margin-top: 8px;
+  }
+
+  .note {
+    margin-top: 22px; background: var(--surface); border: 1px dashed var(--line);
+    border-radius: 12px; padding: 15px 18px; color: var(--muted); font-size: 14px;
+  }
+  .note b { color: var(--ink); }
+  .note .chip { font-family: var(--mono); background: var(--accent-soft); color: var(--ink);
+    padding: 1px 7px; border-radius: 5px; font-size: 12.5px; }
+
+  .theme-btn {
+    position: fixed; top: 14px; right: 14px; z-index: 5;
+    border: 1px solid var(--line); background: var(--surface); color: var(--muted);
+    border-radius: 8px; padding: 6px 10px; font-family: var(--mono); font-size: 12px; cursor: pointer;
+  }
+
+  @media (max-width: 680px) {
+    .io { grid-template-columns: 1fr; }
+    .io > div { border-right: none; border-bottom: 1px solid var(--line); }
+    .io > div:last-child { border-bottom: none; }
+    .step-ind { margin-left: 0; width: 100%; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .conn.flow .pulse { animation: none; opacity: 0; }
+    .node:hover { transform: none; }
+    * { scroll-behavior: auto; }
+  }
+</style>
+
+<button class="theme-btn" id="themeBtn" aria-label="테마 전환">◐ 테마</button>
+
+<div class="wrap">
+  <header>
+    <span class="eyebrow">Project C · 자동화 워크플로우</span>
+    <span class="tag-preview">🟡 예습</span>
+    <h1>주제 하나가 콘텐츠 3종 + 이미지가 되기까지</h1>
+    <p class="lede">Make는 <b>앱 사이를 대신 복붙해주는 로봇</b>입니다. 아래 버튼으로 한 단계씩 넘기면, 주제 한 줄이 각 모듈을 지나며 <b>무엇을 받아 → 무슨 일을 하고 → 무엇을 넘기는지</b> 직접 볼 수 있어요.</p>
+  </header>
+
+  <div class="topic">
+    <span class="k">입력한 주제 (트리거)</span>
+    <span class="v" id="topicVal">2026년 직장인 AI 생산성 도구 트렌드</span>
+  </div>
+
+  <div class="pipe-scroll">
+    <div class="pipe" id="pipe"></div>
+  </div>
+
+  <div class="controls">
+    <button class="ctl primary" id="runBtn">▶ 처음부터 실행</button>
+    <button class="ctl" id="prevBtn">← 이전</button>
+    <button class="ctl" id="nextBtn">다음 →</button>
+    <span class="step-ind" id="stepInd"></span>
+  </div>
+
+  <div class="detail">
+    <div class="detail-head">
+      <span class="dnum" id="dNum"></span>
+      <h2 id="dName"></h2>
+      <span class="dtool" id="dTool"></span>
+    </div>
+    <div class="io">
+      <div>
+        <div class="lbl"><span class="arrow">⬅</span> 받는 것 (입력)</div>
+        <div class="content" id="dIn"></div>
+      </div>
+      <div>
+        <div class="lbl">⚙ 하는 일</div>
+        <div class="content" id="dDo"></div>
+      </div>
+      <div>
+        <div class="lbl"><span class="arrow">➡</span> 넘기는 것 (출력)</div>
+        <div class="content" id="dOut"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="note">
+    <b>💡 매핑(mapping)이란?</b> 한 모듈의 <span class="chip">넘기는 것</span>을 다음 모듈의 <span class="chip">받는 것</span> 칸에 끼워 넣는 작업이에요. 예: 1단계가 넘긴 <span class="chip">{{topic}}</span>를 2~5단계 프롬프트 안에 꽂으면, 주제가 사슬처럼 전 과정을 타고 흐릅니다. <b>이 "끼워 넣기"가 자동화의 핵심</b>이라, Make 빌드 때 가장 많이 하게 되는 동작입니다.
+  </div>
+</div>
+
+<script>
+  var stages = [
+    {
+      num: "STAGE 1", name: "주제 입력", tool: "Google Forms · Watch Responses",
+      in: {t: "사람이 폼에 주제 한 줄을 입력하고 제출", d: "2026년 직장인 AI 생산성 도구 트렌드", cls: ""},
+      do: "Make가 이 폼을 계속 감시하다가, 새 응답이 도착하면 워크플로우 전체를 자동으로 시작(트리거)합니다.",
+      out: {t: "주제를 변수로 만들어 다음 단계로 전달", d: "{{topic}} = \"2026년 직장인 AI 생산성 도구 트렌드\"", cls: "", m: "여기서부터 사람 손 없이 자동 진행"}
+    },
+    {
+      num: "STAGE 2", name: "인스타 텍스트", tool: "Google Gemini · Create a Completion #1",
+      in: {t: "{{topic}} + 인스타 프롬프트 (2~4문장, 해시태그 10개, 친근한 톤)", d: "{{topic}} 을(를) 인스타 캡션 규칙에 맞게 변환해줘", cls: ""},
+      do: "ChatGPT가 주제를 짧고 친근한 캡션 + 해시태그로 바꿉니다. (톤: 감성·이모지)",
+      out: {t: "인스타용 캡션과 해시태그", d: "아직도 회의록 손으로 정리하고 계세요? 🤯 …\n#AI생산성 #직장인필수 #업무자동화 …(10개)", cls: "insta", m: "캡션 126자 · 해시태그 10개 ✓"}
+    },
+    {
+      num: "STAGE 3", name: "블로그 텍스트", tool: "Google Gemini · Create a Completion #2",
+      in: {t: "{{topic}} + 블로그 프롬프트 (본문 500자+, 소제목 3개, 정보 전달 톤)", d: "{{topic}} 을(를) 블로그 본문 구조로 작성해줘", cls: ""},
+      do: "같은 주제를 이번엔 길고 설명적인 글로 바꿉니다. 제목 + 소제목 3개 + 문단 구조.",
+      out: {t: "블로그 제목과 본문", d: "제목: 2026년 직장인이 주목해야 할 …\n## 반복 업무는 이제 AI가 대신한다 …", cls: "blog", m: "본문 563자 · 소제목 3개 ✓ (v1은 439자로 미달 → 수정함)"}
+    },
+    {
+      num: "STAGE 4", name: "X 텍스트", tool: "Google Gemini · Create a Completion #3",
+      in: {t: "{{topic}} + X 프롬프트 (280자 이내, 임팩트 요약)", d: "{{topic}} 을(를) 280자 이내로 요약해줘", cls: ""},
+      do: "같은 주제를 한 덩어리 핵심 요약 + 해시태그로 압축합니다.",
+      out: {t: "X 게시물 텍스트", d: "2026년 직장인의 무기는 AI 생산성 도구다. … 🚀 #AI생산성 #업무자동화 #일잘러", cls: "x", m: "136자 · 280자 이내 ✓"}
+    },
+    {
+      num: "STAGE 5", name: "대표 이미지", tool: "Google Gemini · Generate an Image",
+      in: {t: "{{topic}} 기반 이미지 프롬프트 (스타일·구도·용도, no text)", d: "\"AI 생산성 도구를 쓰는 직장인, 밝은 톤, SNS 썸네일, 글자 없음\"", cls: ""},
+      do: "이미지 AI가 주제에 맞는 대표 이미지 1장을 생성합니다. (SNS 활용 품질)",
+      out: {t: "이미지 파일 (URL/바이너리)", d: "🖼️ 대표 이미지 1장  ※ 예습 단계에선 아직 미생성 (도구 연결 후 실측 예정)", cls: "", m: ""}
+    },
+    {
+      num: "STAGE 6", name: "노션 저장", tool: "Notion · Create DB Item ×3",
+      in: {t: "2~5단계의 텍스트 3종 + 이미지", d: "인스타 캡션 / 블로그 본문 / X 요약 / 대표 이미지", cls: ""},
+      do: "노션 콘텐츠 DB에 플랫폼별로 항목을 나눠 자동 저장합니다. (플랫폼 = Select 속성으로 구분)",
+      out: {t: "완료 — 노션에 결과 정리", d: "① 인스타 항목  ② 블로그 항목  ③ X 항목  (+ 이미지 첨부)", cls: "", m: "플랫폼별 구분 저장 ✓ 요구사항 충족"}
+    }
+  ];
+
+  var active = 0, reached = 0;
+  var pipe = document.getElementById('pipe');
+  var nodeEls = [], connEls = [];
+
+  stages.forEach(function(s, i){
+    var n = document.createElement('button');
+    n.className = 'node'; n.type = 'button';
+    n.setAttribute('aria-label', s.name);
+    n.innerHTML = '<div class="num">' + s.num + '</div><div class="nm">' + s.name + '</div><span class="tool">' + s.tool.split(' · ')[0] + '</span>';
+    n.addEventListener('click', function(){ goto(i, i > active); });
+    pipe.appendChild(n); nodeEls.push(n);
+    if (i < stages.length - 1) {
+      var c = document.createElement('div');
+      c.className = 'conn'; c.innerHTML = '<div class="pulse"></div>';
+      pipe.appendChild(c); connEls.push(c);
+    }
+  });
+
+  function esc(t){ return t.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+
+  function render(){
+    var s = stages[active];
+    document.getElementById('dNum').textContent = s.num;
+    document.getElementById('dName').textContent = s.name;
+    document.getElementById('dTool').textContent = s.tool;
+    document.getElementById('dIn').innerHTML = esc(s.in.t) + '<div class="data ' + s.in.cls + '">' + esc(s.in.d) + '</div>';
+    document.getElementById('dDo').innerHTML = esc(s.do);
+    var outHtml = esc(s.out.t) + '<div class="data ' + s.out.cls + '">' + esc(s.out.d) + '</div>';
+    if (s.out.m) outHtml += '<span class="measure">' + esc(s.out.m) + '</span>';
+    document.getElementById('dOut').innerHTML = outHtml;
+
+    nodeEls.forEach(function(n, i){
+      n.classList.toggle('active', i === active);
+      n.classList.toggle('done', i < reached);
+    });
+    connEls.forEach(function(c, i){ c.classList.toggle('filled', i < reached); });
+    document.getElementById('stepInd').textContent = '단계 ' + (active + 1) + ' / ' + stages.length;
+    document.getElementById('prevBtn').disabled = active === 0;
+    document.getElementById('nextBtn').disabled = active === stages.length - 1;
+  }
+
+  function goto(i, forward){
+    if (i < 0 || i >= stages.length) return;
+    if (forward && i > 0) {
+      var c = connEls[i - 1];
+      if (c) { c.classList.remove('flow'); void c.offsetWidth; c.classList.add('flow'); }
+    }
+    active = i;
+    if (i > reached) reached = i;
+    render();
+    nodeEls[i].scrollIntoView({behavior: 'smooth', inline: 'center', block: 'nearest'});
+  }
+
+  document.getElementById('nextBtn').addEventListener('click', function(){ goto(active + 1, true); });
+  document.getElementById('prevBtn').addEventListener('click', function(){ goto(active - 1, false); });
+  document.getElementById('runBtn').addEventListener('click', function(){
+    active = 0; reached = 0; render();
+    var i = 0;
+    var timer = setInterval(function(){
+      i++;
+      if (i >= stages.length) { clearInterval(timer); return; }
+      goto(i, true);
+    }, 900);
+  });
+
+  // theme toggle
+  var tb = document.getElementById('themeBtn');
+  tb.addEventListener('click', function(){
+    var cur = document.documentElement.getAttribute('data-theme');
+    var next = cur === 'dark' ? 'light' : (cur === 'light' ? 'dark' :
+      (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'light' : 'dark'));
+    document.documentElement.setAttribute('data-theme', next);
+  });
+
+  render();
+</script>

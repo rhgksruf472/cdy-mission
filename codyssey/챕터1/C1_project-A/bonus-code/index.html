@@ -1,0 +1,500 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BookSwap — AI 시안 → HTML/CSS 변환 (보너스)</title>
+<!--
+  Project A 보너스 — 완성 UI 시안 이미지(design/final/) 3장을 HTML/CSS 코드로 변환.
+  이미지를 그대로 삽입하지 않고 레이아웃/색/컴포넌트를 CSS로 재현했습니다.
+  화면 전환(메인→상세, 상세→뒤로가기 등)까지 클릭되게 만들어 프로토타입처럼 동작.
+  사용 도구: Claude(Claude Code, Opus 4.8) — 이미지 3장을 입력으로 코드 생성.
+-->
+<style>
+  :root {
+    --bg-top: #f7ead2;
+    --bg-bottom: #f2e0c1;
+    --brown-dark: #4a3728;
+    --brown: #5c4632;
+    --brown-soft: #8a7355;
+    --sage: #9fb389;
+    --sage-deep: #8aa072;
+    --card: #ffffff;
+    --tag-bg: #e7ddc7;
+    --shadow: 0 6px 18px rgba(90, 66, 40, 0.12);
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+    background: #d9c9ad;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 28px;
+    justify-content: center;
+    align-items: flex-start;
+    padding: 28px 16px 60px;
+    color: var(--brown-dark);
+  }
+  .page-note {
+    width: 100%;
+    max-width: 900px;
+    text-align: center;
+    color: #4a3728;
+    margin-bottom: 4px;
+  }
+  .page-note h1 { font-size: 20px; margin-bottom: 6px; }
+  .page-note p { font-size: 13px; color: #6b5842; line-height: 1.6; }
+  .page-note .hint { margin-top: 6px; font-size: 12px; color: #7a6a52; }
+
+  /* ---- phone frame ---- */
+  .phone {
+    position: relative;
+    width: 340px;
+    height: 736px;            /* ≈ 9:16 */
+    border-radius: 40px;
+    background: linear-gradient(180deg, var(--bg-top) 0%, var(--bg-bottom) 100%);
+    box-shadow: 0 20px 50px rgba(60, 44, 26, 0.35);
+    overflow: hidden;
+    border: 8px solid #2c2116;
+  }
+  .screen {
+    position: absolute;
+    inset: 0;
+    display: none;
+    flex-direction: column;
+    overflow-y: auto;
+  }
+  .screen.active { display: flex; }
+
+  /* ---- status bar ---- */
+  .statusbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 22px 6px;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--brown-dark);
+    flex: 0 0 auto;
+  }
+  .statusbar .icons { letter-spacing: 2px; }
+
+  /* ---- search ---- */
+  .searchbar {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin: 8px 18px 0;
+    flex: 0 0 auto;
+  }
+  .search-input {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: #fffdf8;
+    border: 1.5px solid #d8c6a6;
+    border-radius: 30px;
+    padding: 11px 18px;
+    color: #a2917a;
+    font-size: 14px;
+  }
+  .filter-btn {
+    width: 40px; height: 40px;
+    border-radius: 50%;
+    background: var(--sage);
+    display: flex; align-items: center; justify-content: center;
+    color: #fff; font-size: 16px;
+    flex: 0 0 auto;
+  }
+
+  /* ---- category row ---- */
+  .cats {
+    display: flex;
+    justify-content: space-between;
+    padding: 20px 22px 4px;
+    flex: 0 0 auto;
+  }
+  .cat { text-align: center; width: 64px; }
+  .cat .circle {
+    width: 60px; height: 60px;
+    border-radius: 50%;
+    background: #efe2c8;
+    border: 1.5px solid #d8c6a6;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 26px;
+    margin: 0 auto 6px;
+  }
+  .cat span { font-size: 12px; color: var(--brown); }
+
+  /* ---- filter chips ---- */
+  .chips {
+    display: flex;
+    gap: 8px;
+    padding: 16px 18px 2px;
+    flex-wrap: wrap;
+    flex: 0 0 auto;
+  }
+  .chip {
+    background: var(--sage);
+    color: #35422a;
+    font-size: 12.5px;
+    font-weight: 600;
+    padding: 8px 14px;
+    border-radius: 18px;
+    white-space: nowrap;
+  }
+  .chip.alt { background: var(--tag-bg); color: #6b5842; }
+
+  /* ---- section heading ---- */
+  .section-title {
+    font-size: 26px;
+    font-weight: 800;
+    color: var(--brown-dark);
+    padding: 18px 20px 4px;
+    flex: 0 0 auto;
+  }
+
+  /* ---- card list ---- */
+  .list { padding: 10px 16px 100px; display: flex; flex-direction: column; gap: 14px; }
+  .card {
+    background: var(--card);
+    border-radius: 18px;
+    box-shadow: var(--shadow);
+    padding: 14px;
+    display: flex;
+    gap: 14px;
+    cursor: pointer;
+    transition: transform .12s ease, box-shadow .12s ease;
+  }
+  .card:hover { transform: translateY(-2px); box-shadow: 0 10px 24px rgba(90,66,40,.18); }
+  .cover {
+    width: 78px; height: 96px;
+    border-radius: 10px;
+    flex: 0 0 auto;
+    background-size: cover;
+    background-position: center;
+  }
+  .card-body { flex: 1; min-width: 0; }
+  .card-top { display: flex; justify-content: space-between; align-items: flex-start; gap: 8px; }
+  .card-title { font-size: 18px; font-weight: 800; color: var(--brown-dark); line-height: 1.2; }
+  .card-author { font-size: 14px; color: var(--brown-soft); margin-top: 4px; }
+  .cond-tag {
+    background: var(--sage);
+    color: #35422a;
+    font-size: 11px;
+    font-weight: 600;
+    padding: 4px 10px;
+    border-radius: 12px;
+    white-space: nowrap;
+    flex: 0 0 auto;
+  }
+  .exchange-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: #b9c9a6;
+    color: #3a4a2c;
+    font-size: 13px;
+    font-weight: 600;
+    padding: 7px 16px;
+    border-radius: 16px;
+    margin-top: 10px;
+  }
+
+  /* ---- bottom nav ---- */
+  .bottomnav {
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    background: #fdfaf2;
+    border-top: 1px solid #e6d7bd;
+    padding: 10px 6px 14px;
+    box-shadow: 0 -4px 14px rgba(90,66,40,.06);
+  }
+  .nav-item {
+    display: flex; flex-direction: column; align-items: center; gap: 3px;
+    font-size: 11px; color: var(--brown-soft); cursor: pointer;
+  }
+  .nav-item .ic { font-size: 20px; }
+  .nav-item.active { color: var(--sage-deep); font-weight: 700; }
+
+  /* ---- detail screen ---- */
+  .detail-header {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    padding: 22px 20px 14px;
+    background: #ecd9bd;
+  }
+  .back-btn {
+    position: absolute;
+    left: 18px;
+    font-size: 24px;
+    color: var(--brown-dark);
+    cursor: pointer;
+    background: none; border: none;
+  }
+  .detail-header h2 { font-size: 20px; color: var(--brown-dark); }
+  .detail-cover-wrap {
+    background: #ecd9bd;
+    display: flex; justify-content: center;
+    padding: 6px 0 26px;
+    border-radius: 0 0 40px 40px;
+  }
+  .detail-cover {
+    width: 150px; height: 200px;
+    border-radius: 8px;
+    box-shadow: 0 10px 22px rgba(74,55,40,.28);
+    background: linear-gradient(160deg, #f3ead6 0%, #e9dcc2 100%);
+    display: flex; flex-direction: column; justify-content: flex-start;
+    padding: 18px 16px;
+    position: relative;
+    overflow: hidden;
+  }
+  .detail-cover .bt { font-size: 20px; font-weight: 800; color: #4a3728; line-height: 1.15; z-index: 2; }
+  .detail-cover .art {
+    position: absolute; bottom: -6px; left: 0; right: 0; height: 96px;
+    background:
+      radial-gradient(circle at 30% 80%, #9fb389 0 30px, transparent 31px),
+      radial-gradient(circle at 70% 90%, #cdbf9f 0 26px, transparent 27px);
+  }
+  .detail-cover .tree { position: absolute; bottom: 8px; left: 22px; font-size: 34px; z-index: 2; }
+  .detail-body { padding: 20px 22px 40px; }
+  .detail-title { font-size: 26px; font-weight: 800; color: var(--brown-dark); }
+  .detail-author { font-size: 16px; color: var(--brown-soft); margin: 6px 0 14px; }
+  .detail-desc { font-size: 15px; color: #5c4a35; line-height: 1.5; }
+  .meta-grid {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 12px 10px;
+    margin: 20px 0;
+  }
+  .meta-pill {
+    background: var(--tag-bg);
+    border-radius: 16px;
+    padding: 8px 12px;
+    font-size: 13px; color: #5c4a35;
+    display: flex; align-items: center; gap: 7px;
+  }
+  .meta-plain { font-size: 13px; color: #5c4a35; display: flex; align-items: center; gap: 7px; padding: 8px 4px; }
+  .divider { height: 1px; background: #e0d0b4; margin: 6px 0 16px; }
+  .poster { display: flex; align-items: center; gap: 10px; font-size: 15px; color: #5c4a35; }
+  .poster .av { width: 34px; height: 34px; border-radius: 50%; background: #d9c4a4; display:flex; align-items:center; justify-content:center; font-size:18px; }
+  .poster b { color: var(--brown-dark); }
+  .poster-note { font-size: 14px; color: var(--brown-soft); margin: 12px 0 22px; }
+  .request-btn {
+    width: 100%;
+    background: var(--sage);
+    color: #fff;
+    font-size: 16px; font-weight: 700;
+    letter-spacing: .5px;
+    border: none;
+    border-radius: 30px;
+    padding: 16px;
+    cursor: pointer;
+  }
+  .request-btn:active { background: var(--sage-deep); }
+  .toast {
+    position: absolute; left: 50%; bottom: 26px; transform: translateX(-50%);
+    background: #3a4a2c; color: #fff; font-size: 13px;
+    padding: 10px 18px; border-radius: 20px; opacity: 0;
+    transition: opacity .25s ease; pointer-events: none;
+  }
+  .toast.show { opacity: 1; }
+</style>
+</head>
+<body>
+
+<div class="page-note">
+  <h1>BookSwap — 중고 책 교환 플랫폼 (AI 시안 → HTML/CSS 변환)</h1>
+  <p>Project A 보너스 산출물. 완성 UI 이미지 3장을 HTML/CSS로 재현했습니다. 이미지를 삽입한 게 아니라 레이아웃·색·컴포넌트를 코드로 다시 만든 것입니다.</p>
+  <p class="hint">👉 카드를 클릭하면 상세 화면, 상세의 ← 를 누르면 돌아옵니다. 하단 내비 Home/Search로 메인·목록 전환.</p>
+</div>
+
+<!-- =============== PHONE =============== -->
+<div class="phone">
+
+  <!-- ============ SCREEN 1: MAIN ============ -->
+  <section class="screen active" id="screen-main">
+    <div class="statusbar"><span class="icons">▂▄▆ 📶</span><span>10:30</span><span class="icons">📶 🔋</span></div>
+
+    <div class="searchbar">
+      <div class="search-input"><span>🔍</span><span>Search books, authors...</span></div>
+      <div class="filter-btn">▽</div>
+    </div>
+
+    <div class="cats">
+      <div class="cat"><div class="circle">📖</div><span>Fiction</span></div>
+      <div class="cat"><div class="circle">📚</div><span>Non-Fiction</span></div>
+      <div class="cat"><div class="circle">🎓</div><span>Academic</span></div>
+      <div class="cat"><div class="circle">🧸</div><span>Kids &amp; YA</span></div>
+    </div>
+
+    <div class="section-title">Featured Books</div>
+
+    <div class="list">
+      <div class="card" onclick="showDetail()">
+        <div class="cover" style="background:linear-gradient(135deg,#e9dcc3,#d8c7a4);"></div>
+        <div class="card-body">
+          <div class="card-title">Patterns of Infinity</div>
+          <div class="card-author">Kaelen Mercer · Good Condition</div>
+          <span class="exchange-btn">📕 Exchange</span>
+        </div>
+      </div>
+      <div class="card" onclick="showDetail()">
+        <div class="cover" style="background:linear-gradient(135deg,#d6bfa0,#c2a884);"></div>
+        <div class="card-body">
+          <div class="card-title">Sapiens</div>
+          <div class="card-author">Elemart Wimper · Good Condition</div>
+          <span class="exchange-btn">📕 Exchange</span>
+        </div>
+      </div>
+      <div class="card" onclick="showDetail()">
+        <div class="cover" style="background:linear-gradient(135deg,#e7d3b4,#d94f2a);"></div>
+        <div class="card-body">
+          <div class="card-title">Educated</div>
+          <div class="card-author">Caroian Wargen · Good Condition</div>
+          <span class="exchange-btn">📕 Exchange</span>
+        </div>
+      </div>
+      <div class="card" onclick="showDetail()">
+        <div class="cover" style="background:linear-gradient(135deg,#2c3550,#101526);"></div>
+        <div class="card-body">
+          <div class="card-title">The Pictures</div>
+          <div class="card-author">— · Good Condition</div>
+          <span class="exchange-btn">📕 Exchange</span>
+        </div>
+      </div>
+    </div>
+
+    <nav class="bottomnav">
+      <div class="nav-item active"><span class="ic">🏠</span>Home</div>
+      <div class="nav-item" onclick="showList()"><span class="ic">🔍</span>Search</div>
+      <div class="nav-item"><span class="ic">➕</span>Post Book</div>
+      <div class="nav-item"><span class="ic">👤</span>Profile</div>
+    </nav>
+  </section>
+
+  <!-- ============ SCREEN 2: LIST ============ -->
+  <section class="screen" id="screen-list">
+    <div class="statusbar"><span class="icons">▂▄▆ 📶</span><span>10:30</span><span class="icons">📶 🔋</span></div>
+
+    <div class="searchbar">
+      <div class="search-input"><span>🔍</span><span>Search books, authors...</span></div>
+      <div class="filter-btn">▽</div>
+    </div>
+
+    <div class="chips">
+      <span class="chip">Genre: All</span>
+      <span class="chip">Region: Nearby</span>
+      <span class="chip alt">Condition: Any</span>
+    </div>
+
+    <div class="list">
+      <div class="card" onclick="showDetail()">
+        <div class="cover" style="background:linear-gradient(135deg,#c8722f,#2f7d86);"></div>
+        <div class="card-body">
+          <div class="card-top"><div class="card-title">Patterns of Resonance</div><span class="cond-tag">Like New</span></div>
+          <div class="card-author">Alistair Grey</div>
+          <span class="exchange-btn">📕 Exchange</span>
+        </div>
+      </div>
+      <div class="card" onclick="showDetail()">
+        <div class="cover" style="background:linear-gradient(135deg,#8f86c9,#b6a7d8);"></div>
+        <div class="card-body">
+          <div class="card-top"><div class="card-title">Echoes of the Machine</div><span class="cond-tag">Good</span></div>
+          <div class="card-author">Sylvia Vance</div>
+          <span class="exchange-btn">📕 Exchange</span>
+        </div>
+      </div>
+      <div class="card" onclick="showDetail()">
+        <div class="cover" style="background:linear-gradient(160deg,#8b93a6,#5a6270);"></div>
+        <div class="card-body">
+          <div class="card-top"><div class="card-title">Whispers of the Sand</div><span class="cond-tag">Acceptable</span></div>
+          <div class="card-author">Kaelen Chen</div>
+          <span class="exchange-btn">📕 Exchange</span>
+        </div>
+      </div>
+      <div class="card" onclick="showDetail()">
+        <div class="cover" style="background:linear-gradient(135deg,#e0b48c,#7fae9e);"></div>
+        <div class="card-body">
+          <div class="card-top"><div class="card-title">A Distant Whisper</div><span class="cond-tag">Good</span></div>
+          <div class="card-author">Anya Petrova</div>
+          <span class="exchange-btn">📕 Exchange</span>
+        </div>
+      </div>
+      <div class="card" onclick="showDetail()">
+        <div class="cover" style="background:linear-gradient(135deg,#d8a24a,#3a2c1c);"></div>
+        <div class="card-body">
+          <div class="card-top"><div class="card-title">The Fractured Code</div><span class="cond-tag">Good</span></div>
+          <div class="card-author">—</div>
+          <span class="exchange-btn">📕 Exchange</span>
+        </div>
+      </div>
+    </div>
+
+    <nav class="bottomnav">
+      <div class="nav-item" onclick="showMain()"><span class="ic">🏠</span>Home</div>
+      <div class="nav-item active"><span class="ic">🔍</span>Search</div>
+      <div class="nav-item"><span class="ic">➕</span>Post Book</div>
+      <div class="nav-item"><span class="ic">👤</span>Profile</div>
+    </nav>
+  </section>
+
+  <!-- ============ SCREEN 3: DETAIL ============ -->
+  <section class="screen" id="screen-detail">
+    <div class="detail-header">
+      <button class="back-btn" onclick="showMain()">←</button>
+      <h2>Book Detail</h2>
+    </div>
+
+    <div class="detail-cover-wrap">
+      <div class="detail-cover">
+        <div class="bt">The<br>Whispering<br>Woods</div>
+        <div class="art"></div>
+        <div class="tree">🌲</div>
+      </div>
+    </div>
+
+    <div class="detail-body">
+      <div class="detail-title">The Whispering Woods</div>
+      <div class="detail-author">By Eleanor Vance</div>
+      <p class="detail-desc">A captivating story about a hidden forest and its secrets. Hardcover. Good condition.</p>
+
+      <div class="meta-grid">
+        <div class="meta-pill">👍 Condition: Good</div>
+        <div class="meta-pill">📍 Location: Seattle, WA</div>
+        <div class="meta-plain">🎨 Genre: Fantasy</div>
+        <div class="meta-plain">📅 Year: 2021</div>
+      </div>
+
+      <div class="divider"></div>
+
+      <div class="poster"><span class="av">👤</span><span>Posted by: <b>Sarah M.</b></span></div>
+      <p class="poster-note">Looking to exchange for classic fiction.</p>
+
+      <button class="request-btn" onclick="showToast()">REQUEST EXCHANGE</button>
+    </div>
+  </section>
+
+  <div class="toast" id="toast">교환 신청이 전송되었습니다 ✔</div>
+</div>
+
+<script>
+  function activate(id) {
+    document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+    document.getElementById(id).classList.add('active');
+  }
+  function showMain()   { activate('screen-main'); }
+  function showList()   { activate('screen-list'); }
+  function showDetail() { activate('screen-detail'); }
+  function showToast() {
+    const t = document.getElementById('toast');
+    t.classList.add('show');
+    setTimeout(() => t.classList.remove('show'), 1600);
+  }
+</script>
+</body>
+</html>
