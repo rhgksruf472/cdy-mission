@@ -1,6 +1,6 @@
 # Codyssey Mission 02 — 멀티모달 콘텐츠 제작
 
-> 과제 원문: [`codyssey/챕터1/C1_mission-02/codyssey.md`](codyssey.md)
+> 과제 원문: [`codyssey/chapter-1/C1_mission-02/codyssey.md`](codyssey.md)
 
 ## 미션 요약
 
@@ -16,7 +16,7 @@
 ## 저장소 구조
 
 ```
-codyssey/챕터1/C1_mission-02/
+codyssey/chapter-1/C1_mission-02/
 ├── codyssey.md                    과제 원문
 └── storyboard/
     ├── storyboard.md              기획 문서(스토리보드) — 씬 구성·프롬프트·실측 결과 전체 기록

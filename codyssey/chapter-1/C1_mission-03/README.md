@@ -18,7 +18,7 @@ Trigger(시작 이벤트)와 Action(처리 동작)을 시각적으로 연결해 
 ## 저장소 구조
 
 ```
-codyssey/챕터1/C1_mission-03/
+codyssey/chapter-1/C1_mission-03/
 ├── codyssey.md                        과제 원문
 ├── comparison/                        프로젝트 1 — 도구 비교 구현
 │   ├── workflow-spec.md               워크플로우 설계 + 구현 중 이슈·시행착오 기록

@@ -16,7 +16,7 @@
 ## 저장소 구조
 
 ```
-codyssey/챕터1/C1_project-A/
+codyssey/chapter-1/C1_project-A/
 ├── codyssey.md                     과제 원문
 ├── team-role-plan.md               팀 역할 분배 & 킥오프 플랜
 ├── track-briefings.md              4개 트랙 전체 예습 브리핑

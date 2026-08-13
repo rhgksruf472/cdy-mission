@@ -1,6 +1,6 @@
 # Codyssey Mission 01 — LLM 프롬프트 엔지니어링
 
-> 과제 원문: [`codyssey/챕터1/C1_mission-01/codyssey.md`](codyssey.md)
+> 과제 원문: [`codyssey/chapter-1/C1_mission-01/codyssey.md`](codyssey.md)
 
 ## 미션 요약
 
@@ -15,7 +15,7 @@
 ## 저장소 구조
 
 ```
-codyssey/챕터1/C1_mission-01/
+codyssey/chapter-1/C1_mission-01/
 ├── codyssey.md                    과제 원문
 ├── model-comparison/              산출물 1 — 모델 비교·선정 보고서
 ├── system-design/                 산출물 2 — 시스템 설계 문서
