@@ -4,3 +4,7 @@ CLAUDE.md
 # 요구사항 체크리스트/평가 대비 자료 - 비공개 (과제 원문·평가 준비 내용 노출 방지)
 requirements-checklist.md
 QnA.md
+venv/
+.env
+__pycache__/
+*.pyc

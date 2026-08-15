@@ -1,0 +1,47 @@
+{
+  "recommendation": {
+    "recommended_cities": [
+      "창원시 진해구",
+      "경주시",
+      "제주특별자치도"
+    ],
+    "weather": "낮 기온은 14~18℃ 안팎으로 포근하고 활동하기 좋으나, 아침저녁으로 일교차가 10℃ 이상 벌어지는 전형적인 완연한 봄 날씨입니다.",
+    "events": [
+      "진해군항제",
+      "경주 대릉원돌담길 벚꽃축제",
+      "제주 유채꽃 축제"
+    ],
+    "reason": "4월 1일은 남부 지방을 중심으로 봄꽃이 절정을 맞이하는 최적의 여행 시기입니다. 창원 진해는 여좌천과 경화역 등 전국 최고의 벚꽃 명소를 만끽할 수 있는 진해군항제가 진행되어 화려한 봄을 경험할 수 있습니다. 경주는 불국사와 보문호수 일대의 만개한 벚꽃과 천년고도의 유적이 어우러져 서정적인 봄 정취를 선사하며, 제주는 노란 유채꽃과 벚꽃이 함께 어우러져 섬 전체가 화사한 봄빛으로 물들기 때문에 추천합니다."
+  },
+  "restaurants": [
+    {
+      "city": "창원시 진해구",
+      "restaurants": []
+    },
+    {
+      "city": "경주시",
+      "restaurants": []
+    },
+    {
+      "city": "제주특별자치도",
+      "restaurants": []
+    }
+  ],
+  "errors": [
+    {
+      "step": "place_search",
+      "type": "API_ERROR",
+      "message": "창원시 진해구: 401 Client Error: Unauthorized for url: https://dapi.kakao.com/v2/local/search/keyword.json?query=%EC%B0%BD%EC%9B%90%EC%8B%9C+%EC%A7%84%ED%95%B4%EA%B5%AC+%EB%A7%9B%EC%A7%91&size=5"
+    },
+    {
+      "step": "place_search",
+      "type": "API_ERROR",
+      "message": "경주시: 401 Client Error: Unauthorized for url: https://dapi.kakao.com/v2/local/search/keyword.json?query=%EA%B2%BD%EC%A3%BC%EC%8B%9C+%EB%A7%9B%EC%A7%91&size=5"
+    },
+    {
+      "step": "place_search",
+      "type": "API_ERROR",
+      "message": "제주특별자치도: 401 Client Error: Unauthorized for url: https://dapi.kakao.com/v2/local/search/keyword.json?query=%EC%A0%9C%EC%A3%BC%ED%8A%B9%EB%B3%84%EC%9E%90%EC%B9%98%EB%8F%84+%EB%A7%9B%EC%A7%91&size=5"
+    }
+  ]
+}
