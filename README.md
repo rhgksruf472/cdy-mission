@@ -16,3 +16,5 @@ Codyssey AI 교육 프로그램 챕터별 과제 산출물 저장소입니다. �
 
 - [C2 Mission 01 — Python & Git 기초](codyssey/chapter-2/C2_mission-01/README.md) (별도 저장소: https://github.com/rhgksruf472/Prompt-manager)
 - [C2 Mission 02 — API 활용 국내 여행지 추천 프로그램](codyssey/chapter-2/C2_mission-02/README.md)
+- [C2 Mission 03 — AI 웹 서비스 빌딩 (루틴프렌드)](codyssey/chapter-2/C2_mission-03/README.md) (별도 저장소: https://github.com/rhgksruf472/routine-friend)
+- [C2 Project A — 브랜드 아이덴티티 생성기](codyssey/chapter-2/C2_project-A/README.md) (팀 과제 · 별도 저장소: https://github.com/rhgksruf472/-Project-A-)
