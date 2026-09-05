@@ -5,6 +5,10 @@ CLAUDE.md
 requirements-checklist.md
 QnA.md
 venv/
+.venv/
 .env
 __pycache__/
 *.pyc
+
+# 팀/기관 제공 자료 - 비공개 (코디세이 기관 저작물, 재배포 주의)
+codyssey/chapter-2/C2_project-A/team-guide/
