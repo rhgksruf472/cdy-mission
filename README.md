@@ -22,3 +22,7 @@ Codyssey AI 교육 프로그램 챕터별 과제 산출물 저장소입니다. �
 ### Chapter 3
 
 - [C3 Mission 01 — 서울 일별 기온 시계열 분석 & 인사이트 리포트](codyssey/chapter-3/C3_mission-01/README.md)
+
+### Final Project
+
+- [식품업 신입 알바생을 위한 틈새 시간 알바 시뮬레이터](codyssey/final-project/README.md) (팀 과제 · 🟡 예습 단계 · 기획 단계)
