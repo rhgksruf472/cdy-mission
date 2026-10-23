@@ -1,0 +1,66 @@
+/* 색은 변수로 한곳에 모아 둠 → 나중에 다크 모드(보너스)는 이 값만 바꾸면 됨 */
+:root {
+  --bg: #f5f6f8;      /* 페이지 배경 */
+  --card: #ffffff;    /* 카드 배경 */
+  --text: #222222;    /* 기본 글자색 */
+  --accent: #2f6fed;  /* 강조색(버튼, 내 말풍선) */
+  --border: #dddddd;  /* 테두리 */
+}
+
+* { box-sizing: border-box; }  /* 폭 계산에 여백·테두리를 포함 → 칸 크기가 예측대로 나옴 */
+
+body { margin: 0; font-family: "Malgun Gothic", sans-serif; background: var(--bg); color: var(--text); }
+header { padding: 16px 24px; }
+h1 { margin: 0; font-size: 22px; }
+h2 { margin: 0 0 12px; font-size: 16px; }
+
+.banner { background: #fff4d6; padding: 10px 24px; text-align: center; }  /* 서버 깨우기 안내 띠 */
+.hidden { display: none; }  /* JS가 이 이름표를 붙였다 뗐다 하며 보이기/숨기기 */
+.card { background: var(--card); border: 1px solid var(--border); border-radius: 8px; padding: 16px; }
+
+/* 왼쪽 대화 목록(240px) + 오른쪽 채팅(남은 폭 전부) 2단 배치 */
+main { display: grid; grid-template-columns: 240px 1fr; gap: 16px; padding: 0 24px; }
+
+#history { background: var(--card); border: 1px solid var(--border); border-radius: 8px; padding: 16px; }
+#conversation-list { list-style: none; margin: 12px 0 0; padding: 0; }
+#conversation-list li { padding: 8px; border-radius: 6px; cursor: pointer; }
+#conversation-list li:hover { background: var(--bg); }  /* 마우스를 올리면 배경색이 바뀜 */
+
+#chat-area { display: flex; flex-direction: column; gap: 12px; }
+#messages { height: 360px; overflow-y: auto; background: var(--card); border: 1px solid var(--border); border-radius: 8px; padding: 16px; }  /* 넘치면 스크롤 */
+
+.msg { max-width: 75%; margin-bottom: 10px; padding: 10px 14px; border-radius: 12px; white-space: pre-wrap; }  /* pre-wrap: AI 답변의 줄바꿈 유지 */
+.msg.user { margin-left: auto; background: var(--accent); color: #fff; }  /* 내 말풍선은 오른쪽 */
+.msg.assistant { background: var(--bg); }                                  /* AI 말풍선은 왼쪽 */
+
+form { display: flex; gap: 8px; }
+input { flex: 1; padding: 10px; border: 1px solid var(--border); border-radius: 6px; }
+button { padding: 10px 16px; border: none; border-radius: 6px; background: var(--accent); color: #fff; cursor: pointer; }
+
+#data-area { margin: 16px 24px 24px; }
+#data-table-wrap { max-height: 320px; overflow-y: auto; margin-top: 12px; }  /* 281개 행도 이 안에서만 스크롤 */
+#data-area table { width: 100%; border-collapse: collapse; }
+#data-area th, #data-area td { padding: 8px; border-bottom: 1px solid var(--border); text-align: left; }
+#data-list button { padding: 4px 10px; font-size: 13px; }
+
+/* ── app.js가 만들어 넣는 요소들의 디자인 ── */
+#conversation-list li { position: relative; display: flex; flex-direction: column; gap: 2px; padding-right: 28px; }
+#conversation-list li.active { background: var(--bg); font-weight: bold; }  /* 지금 보고 있는 대화 */
+#conversation-list li.empty { color: #888; cursor: default; }
+#conversation-list small { color: #888; font-weight: normal; font-size: 12px; }
+.conv-title { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }  /* 긴 제목은 … 으로 자름 */
+.conv-del { position: absolute; top: 6px; right: 4px; padding: 0 6px; background: transparent; color: #999; font-size: 16px; }
+.conv-del:hover { color: #e5484d; }
+
+#loading { color: #888; font-size: 14px; }
+button:disabled, input:disabled { opacity: 0.6; cursor: not-allowed; }  /* 로딩 중 비활성화 표시 */
+
+#data-count { color: #888; font-weight: normal; }
+.status { min-height: 1em; margin: 8px 0 0; font-size: 14px; color: #1a7f37; }  /* 저장 결과(성공=초록) */
+.status.error { color: #e5484d; }                                                /* 실패=빨강 */
+#data-list .del { background: #e5484d; }
+
+/* 화면 폭이 좁으면(휴대폰) 2단을 1단으로 */
+@media (max-width: 720px) {
+  main { grid-template-columns: 1fr; }
+}

@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">  <!-- 한글이 깨지지 않게 UTF-8 지정 -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">  <!-- 휴대폰 화면 폭에 맞춤 -->
+  <title>환율 AI 비서</title>
+  <link rel="stylesheet" href="style.css">  <!-- 디자인 파일(style.css) 연결 -->
+</head>
+<body>
+  <!-- 콜드스타트 안내: 무료 서버가 잠들어 있으면 첫 응답까지 1분 가까이 걸릴 수 있음 -->
+  <div id="server-status" class="banner">서버를 깨우는 중입니다... 무료 서버라 첫 접속은 최대 1분 정도 걸릴 수 있어요.</div>
+
+  <header>
+    <h1>💱 환율 AI 비서</h1>
+  </header>
+
+  <main>
+    <!-- 왼쪽: 대화 기록 목록 -->
+    <aside id="history">
+      <h2>대화 기록</h2>
+      <button id="new-chat-btn">+ 새 대화</button>  <!-- 화면을 비우고 새 대화 시작 -->
+      <ul id="conversation-list"></ul>              <!-- JS가 대화 목록을 채워 넣을 빈 자리 -->
+    </aside>
+
+    <!-- 오른쪽: 데이터 요약 + 채팅 -->
+    <section id="chat-area">
+      <div id="summary" class="card">요약을 불러오는 중...</div>  <!-- 기간·개수·평균·추세 표시 자리 -->
+      <div id="messages"></div>                                   <!-- 말풍선이 쌓이는 자리 -->
+      <div id="loading" class="hidden">AI가 답변을 작성하는 중...</div>  <!-- 로딩 표시(평소엔 숨김) -->
+      <form id="chat-form">
+        <input id="chat-input" type="text" placeholder="환율에 대해 물어보세요" required>  <!-- required: 비어 있으면 전송 안 됨 -->
+        <button type="submit">전송</button>
+      </form>
+    </section>
+  </main>
+
+  <!-- 아래: 데이터 관리(추가 + 목록 + 수정/삭제) -->
+  <section id="data-area" class="card">
+    <h2>데이터 관리 <small id="data-count"></small></h2>  <!-- 개수는 JS가 채움 -->
+    <form id="data-form">
+      <input id="data-date" type="date" required>                                        <!-- 날짜 선택 칸 -->
+      <input id="data-value" type="number" step="0.01" placeholder="환율 값" required>  <!-- 숫자만 입력 가능 -->
+      <input id="data-memo" type="text" placeholder="메모 (선택)">                       <!-- 비워도 됨 -->
+      <button type="submit">추가</button>
+    </form>
+    <p id="data-status" class="status"></p>  <!-- 저장/수정/삭제 결과 안내 문구 -->
+    <div id="data-table-wrap">  <!-- 행이 많아도 이 영역 안에서만 스크롤 -->
+      <table>
+        <thead><tr><th>날짜</th><th>값</th><th>메모</th><th>관리</th></tr></thead>
+        <tbody id="data-list"></tbody>  <!-- JS가 데이터 행을 채워 넣을 빈 자리 -->
+      </table>
+    </div>
+  </section>
+
+  <script src="config.js"></script>  <!-- 백엔드 주소 설정(Vercel에서는 환경변수로 다시 생성) -->
+  <script src="app.js"></script>     <!-- 화면 동작 코드 -->
+</body>
+</html>
