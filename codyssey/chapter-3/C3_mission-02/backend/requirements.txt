@@ -1,0 +1,6 @@
+# Packages that Render installs on the server
+fastapi==0.141.1        # web API framework (includes Pydantic)
+uvicorn==0.53.0         # server program that runs the FastAPI app
+firebase-admin==7.6.0   # Firestore database connection
+google-genai==2.24.0    # Gemini API (used instead of OpenAI)
+python-dotenv==1.2.3    # reads the .env file (local only)
