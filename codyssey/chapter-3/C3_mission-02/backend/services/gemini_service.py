@@ -13,6 +13,9 @@ def ask_gemini(system_prompt: str, user_message: str) -> str:
     response = client.models.generate_content(
         model="gemini-3.6-flash",                                   # 저렴하고 빠른 모델
         contents=user_message,                                       # 사용자 질문
-        config=types.GenerateContentConfig(system_instruction=system_prompt),  # 시스템 프롬프트 주입
+        config=types.GenerateContentConfig(
+            system_instruction=system_prompt,  # 데이터 요약을 "배경지식"으로 전달
+            max_output_tokens=1024,            # 답변 길이 제한 — 비용/토큰 과다 사용 방지
+        ),
     )
     return response.text
