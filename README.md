@@ -22,6 +22,7 @@ Codyssey AI 교육 프로그램 챕터별 과제 산출물 저장소입니다. �
 ### Chapter 3
 
 - [C3 Mission 01 — 서울 일별 기온 시계열 분석 & 인사이트 리포트](codyssey/chapter-3/C3_mission-01/README.md)
+- [C3 Mission 02 — 환율 AI 비서 (데이터 기반 AI Agent)](codyssey/chapter-3/C3_mission-02/README.md) (배포: [사이트](https://c3-ai-assistant.vercel.app) · [API 문서](https://c3-ai-assistant.onrender.com/docs))
 
 ### Final Project
 
