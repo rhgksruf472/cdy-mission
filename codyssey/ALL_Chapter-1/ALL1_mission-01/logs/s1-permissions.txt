@@ -1,0 +1,30 @@
+# S1-2. 권한 실습 (2026-11-05, 사용자 실행 원본, Ubuntu 26.04.1 LTS / bash / WSL2)
+
+## 실험 1: 파일 권한 (hello.sh) — 644 → 755
+pc@DESKTOP-QMSIH7V:~/codyssey$ cd ~/codyssey/practice
+pc@DESKTOP-QMSIH7V:~/codyssey/practice$ echo 'echo "hi from script"' > hello.sh
+pc@DESKTOP-QMSIH7V:~/codyssey/practice$ ls -l hello.sh
+-rw-r--r-- 1 pc pc 22 Nov  5 19:27 hello.sh
+pc@DESKTOP-QMSIH7V:~/codyssey/practice$ ./hello.sh
+bash: ./hello.sh: Permission denied
+pc@DESKTOP-QMSIH7V:~/codyssey/practice$ chmod 755 hello.sh
+pc@DESKTOP-QMSIH7V:~/codyssey/practice$ ls -l hello.sh
+-rwxr-xr-x 1 pc pc 22 Nov  5 19:27 hello.sh
+pc@DESKTOP-QMSIH7V:~/codyssey/practice$ ./hello.sh
+hi from script
+
+## 실험 2: 디렉토리 권한 (backup) — 755 → 700 → 644 → 755
+pc@DESKTOP-QMSIH7V:~/codyssey/practice$ ls -ld backup
+drwxr-xr-x 2 pc pc 4096 Nov  5 19:16 backup
+pc@DESKTOP-QMSIH7V:~/codyssey/practice$ chmod 700 backup
+pc@DESKTOP-QMSIH7V:~/codyssey/practice$ ls -ld backup
+drwx------ 2 pc pc 4096 Nov  5 19:16 backup
+pc@DESKTOP-QMSIH7V:~/codyssey/practice$ chmod 644 backup
+pc@DESKTOP-QMSIH7V:~/codyssey/practice$ ls -ld backup
+drw-r--r-- 2 pc pc 4096 Nov  5 19:16 backup
+pc@DESKTOP-QMSIH7V:~/codyssey/practice$ cd backup
+bash: cd: backup: Permission denied
+pc@DESKTOP-QMSIH7V:~/codyssey/practice$ chmod 755 backup
+pc@DESKTOP-QMSIH7V:~/codyssey/practice$ ls -ld backup
+drwxr-xr-x 2 pc pc 4096 Nov  5 19:16 backup
+pc@DESKTOP-QMSIH7V:~/codyssey/practice$

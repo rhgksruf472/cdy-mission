@@ -1,0 +1,65 @@
+# S5-1. Git 버전 확인 + 설정 (2026-11-05, 사용자 실행 원본, Ubuntu / bash / WSL2) — 이메일은 공개 저장소 대비 마스킹(●●●@●●●)
+# 관찰:
+#  - Git 버전 2.53.0 (Ubuntu)
+#  - 전역(global) 설정에 오타 키 "user.emmail" 이 에러 없이 저장됨 → Git은 알 수 없는 설정 이름도 검증하지 않고 저장. 올바른 user.email 은 전역에 없었음(→ 이후 바로잡은 로그는 이어서 기록 예정)
+#  - init.defaultbranch=main (소문자 b로 입력했으나 Git은 설정 이름의 대소문자를 구분하지 않음. 정식 표기는 init.defaultBranch)
+#  - 출력 아래쪽의 user.name / user.email 은 이 폴더가 속한 저장소의 로컬 설정(.git/config)에서 나온 것으로 보임(remote.origin.url 등과 같은 블록)
+#  - remote.origin.url 이 GitHub 저장소로 설정돼 있고 branch.main 이 origin/main 을 추적 중 → GitHub 연동 상태 확인 단서
+# 주의: 이 단계는 오타 수정 전 상태이므로 체크리스트의 "Git 설정 완료"는 아직 체크하지 않음.
+
+pc@DESKTOP-QMSIH7V:~/.../ALL1_mission-01$ git --version
+git version 2.53.0
+pc@DESKTOP-QMSIH7V:~/.../ALL1_mission-01$ git config --global user.name rhgksruf472
+pc@DESKTOP-QMSIH7V:~/.../ALL1_mission-01$ git config --global user.emmail ●●●@●●●
+pc@DESKTOP-QMSIH7V:~/.../ALL1_mission-01$ git config --global init.defaultbranch main
+pc@DESKTOP-QMSIH7V:~/.../ALL1_mission-01$ git config --list
+user.name=rhgksruf472
+user.emmail=●●●@●●●
+init.defaultbranch=main
+core.repositoryformatversion=0
+core.filemode=false
+core.bare=false
+core.logallrefupdates=true
+core.symlinks=false
+core.ignorecase=true
+remote.origin.url=https://github.com/rhgksruf472/cdy-mission.git
+remote.origin.fetch=+refs/heads/*:refs/remotes/origin/*
+branch.main.remote=origin
+branch.main.vscode-merge-base=origin/main
+branch.main.merge=refs/heads/main
+user.email=●●●@●●●
+user.name=rhgksruf472
+lfs.repositoryformatversion=0
+pc@DESKTOP-QMSIH7V:~/.../ALL1_mission-01$
+
+# S5-1 보충. 오타 수정 1차 시도 — 실패 (사용자 실행 원본, 이메일 마스킹)
+# 관찰: 수정이 안 됨. --global --list 에 user.emmail 이 그대로 남아 있고 올바른 user.email 은 전역에 없음.
+#  - 실패 1: "--unset" 뒤에 설정 이름(키)이 아니라 이메일(값)을 넣음 → error: invalid key
+#  - 실패 2: "--user.email" 처럼 키에 -- 를 붙여 옵션으로 해석됨 + 이메일 철자(gmai.com)와 줄바꿈 오류 → error: unknown option `user.email'
+#  - 주의: 만약 명령 형태가 맞았다면 Git은 틀린 철자의 이메일도 에러 없이 저장했을 것(키/값을 검증하지 않음).
+#  - init.defaultBranch main 은 정식 표기로 다시 설정됨(성공, 출력 없음). 전역 목록의 init.defaultbranch=main 은 같은 키(대소문자 무시).
+pc@DESKTOP-QMSIH7V:~/.../ALL1_mission-01$ git config --global --unset ●●●@●●●
+error: invalid key: ●●●@●●●
+pc@DESKTOP-QMSIH7V:~/.../ALL1_mission-01$ git config --global --user.email  ●●●@●●●(철자 오타 + 줄바꿈)
+error: unknown option `user.email'
+usage: git config list [<file-option>] [<display-option>] [--includes]
+   ... (사용법 도움말 이하 생략)
+pc@DESKTOP-QMSIH7V:~/.../ALL1_mission-01$ git config --global init.defaultBranch main
+pc@DESKTOP-QMSIH7V:~/.../ALL1_mission-01$ git config --global --list
+user.name=rhgksruf472
+user.emmail=●●●@●●●
+init.defaultbranch=main
+pc@DESKTOP-QMSIH7V:~/.../ALL1_mission-01$
+
+# S5-1 보충 2. 오타 수정 2차 시도 — 성공 (사용자 실행 원본, 이메일 마스킹)
+# 관찰: 오타 키 user.emmail 이 삭제됨, 올바른 user.email 이 전역에 설정됨. 전역 설정: user.name / user.email / init.defaultbranch=main
+# 배운 점: git config 는 "이름(키) 값" 한 쌍. --unset 뒤에는 값이 아니라 이름(키)을 쓴다. 사용자가 철자를 직접 치지 않고 복사해서 입력하여 철자 오류 방지.
+pc@DESKTOP-QMSIH7V:~/.../ALL1_mission-01$ git config --global --unset user.emmail
+pc@DESKTOP-QMSIH7V:~/.../ALL1_mission-01$ git config --global user.email "●●●@●●●"
+pc@DESKTOP-QMSIH7V:~/.../ALL1_mission-01$ git config --global user.email
+●●●@●●●
+pc@DESKTOP-QMSIH7V:~/.../ALL1_mission-01$ git config --global --list
+user.name=rhgksruf472
+user.email=●●●@●●●
+init.defaultbranch=main
+pc@DESKTOP-QMSIH7V:~/.../ALL1_mission-01$

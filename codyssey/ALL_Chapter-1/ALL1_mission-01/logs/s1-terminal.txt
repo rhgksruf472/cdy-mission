@@ -1,0 +1,54 @@
+# S1-1. 터미널 기본 조작 (2026-11-05, 사용자 실행 원본, Ubuntu 26.04.1 LTS / bash / WSL2)
+
+pc@DESKTOP-QMSIH7V:/mnt/c/Users/PC/OneDrive/Desktop/vs code folder/cdy$ cd ~
+pc@DESKTOP-QMSIH7V:~$ pwd
+/home/pc
+pc@DESKTOP-QMSIH7V:~$ ls -la
+total 28
+drwxr-x--- 4 pc   pc   4096 Nov  5 19:11 .
+drwxr-xr-x 3 root root 4096 Nov  5 19:10 ..
+-rw-r--r-- 1 pc   pc    220 Nov  5 19:10 .bash_logout
+-rw-r--r-- 1 pc   pc   3771 Nov  5 19:10 .bashrc
+drwxr-x--- 4 pc   pc   4096 Nov  5 19:11 .cache
+drwxr-x--- 3 pc   pc   4096 Nov  5 19:11 .config
+-rw-rw-r-- 1 pc   pc      0 Nov  5 19:11 .motd_shown
+-rw-r--r-- 1 pc   pc    807 Nov  5 19:10 .profile
+pc@DESKTOP-QMSIH7V:~$ mkdir -p codyssey/practice
+pc@DESKTOP-QMSIH7V:~$ cd codyssey/practice
+pc@DESKTOP-QMSIH7V:~/codyssey/practice$ pwd
+/home/pc/codyssey/practice
+pc@DESKTOP-QMSIH7V:~/codyssey/practice$ touch empty.txt
+pc@DESKTOP-QMSIH7V:~/codyssey/practice$ echo "hello codyssey" > memo.txt
+pc@DESKTOP-QMSIH7V:~/codyssey/practice$ cat memo.txt
+hello codyssey
+pc@DESKTOP-QMSIH7V:~/codyssey/practice$ ls -la
+total 12
+drwxr-xr-x 2 pc pc 4096 Nov  5 19:15 .
+drwxr-xr-x 3 pc pc 4096 Nov  5 19:14 ..
+-rw-r--r-- 1 pc pc    0 Nov  5 19:15 empty.txt
+-rw-r--r-- 1 pc pc   15 Nov  5 19:15 memo.txt
+pc@DESKTOP-QMSIH7V:~/codyssey/practice$ cp memo.txt memo-copy.txt
+pc@DESKTOP-QMSIH7V:~/codyssey/practice$ mkdir backup
+pc@DESKTOP-QMSIH7V:~/codyssey/practice$ mv memo-copy.txt backup/
+pc@DESKTOP-QMSIH7V:~/codyssey/practice$ mv backup/memo-copy.txt backup/memo-renamed.txt
+pc@DESKTOP-QMSIH7V:~/codyssey/practice$ ls -la backup
+total 12
+drwxr-xr-x 2 pc pc 4096 Nov  5 19:16 .
+drwxr-xr-x 3 pc pc 4096 Nov  5 19:16 ..
+-rw-r--r-- 1 pc pc   15 Nov  5 19:15 memo-renamed.txt
+pc@DESKTOP-QMSIH7V:~/codyssey/practice$ rm backup/memo-renamed.txt
+pc@DESKTOP-QMSIH7V:~/codyssey/practice$ ls -la backup
+total 8
+drwxr-xr-x 2 pc pc 4096 Nov  5 19:16 .
+drwxr-xr-x 3 pc pc 4096 Nov  5 19:16 ..
+pc@DESKTOP-QMSIH7V:~/codyssey/practice$ cd ..
+pc@DESKTOP-QMSIH7V:~/codyssey$ pwd
+/home/pc/codyssey
+pc@DESKTOP-QMSIH7V:~/codyssey$
+
+# S1-1 보충. 상대 경로는 위치에 따라 달라진다 (G1 확인 실습, 사용자 실행 원본)
+pc@DESKTOP-QMSIH7V:~/codyssey$ cd ~/codyssey
+pc@DESKTOP-QMSIH7V:~/codyssey$ cat memo.txt
+cat: memo.txt: No such file or directory
+pc@DESKTOP-QMSIH7V:~/codyssey$ cat practice/memo.txt
+hello codyssey

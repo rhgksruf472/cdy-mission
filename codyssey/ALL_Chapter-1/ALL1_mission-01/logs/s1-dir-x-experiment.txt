@@ -1,0 +1,23 @@
+# S1-2 보충. 폴더에서 r은 있고 x만 없을 때 (2026-11-05, 사용자 실행 원본)
+# 관찰: ls(r 권한)는 성공, cd(x 권한)는 Permission denied. 중간의 chomd는 chmod 오타(Command not found).
+
+pc@DESKTOP-QMSIH7V:~/codyssey/practice$ cd ~/codyssey/practice
+pc@DESKTOP-QMSIH7V:~/codyssey/practice$ touch backup/a.txt
+pc@DESKTOP-QMSIH7V:~/codyssey/practice$ chmod 644 backup
+pc@DESKTOP-QMSIH7V:~/codyssey/practice$ ls backup
+a.txt
+pc@DESKTOP-QMSIH7V:~/codyssey/practice$ cd backup
+bash: cd: backup: Permission denied
+pc@DESKTOP-QMSIH7V:~/codyssey/practice$ chomd 755 backup
+Command 'chomd' not found, did you mean:
+  command 'chmod' from deb coreutils-from-gnu (0.0.0~ubuntu25)
+  command 'chmod' from deb coreutils-from-uutils (0.0.0~ubuntu25)
+Try: sudo apt install <deb name>
+pc@DESKTOP-QMSIH7V:~/codyssey/practice$ chomd 755 backup
+Command 'chomd' not found, did you mean:
+  command 'chmod' from deb coreutils-from-gnu (0.0.0~ubuntu25)
+  command 'chmod' from deb coreutils-from-uutils (0.0.0~ubuntu25)
+Try: sudo apt install <deb name>
+pc@DESKTOP-QMSIH7V:~/codyssey/practice$ chmod 755 backup
+pc@DESKTOP-QMSIH7V:~/codyssey/practice$ cd backup
+pc@DESKTOP-QMSIH7V:~/codyssey/practice/backup$ cd ..

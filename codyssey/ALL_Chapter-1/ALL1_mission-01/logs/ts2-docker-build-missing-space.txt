@@ -1,0 +1,58 @@
+# 트러블슈팅 2. docker build 실패: "requires 1 argument" (2026-11-05, 사용자 실행 원본)
+# 문제: docker build -t my-web:1.0. 실행 시 에러, docker images 에도 my-web 이 만들어지지 않음
+# 원인 가설: "1.0" 과 마지막 "." 사이 공백이 빠져 "1.0." 이 -t 값으로 합쳐짐 → 빌드 위치(PATH, 현재 폴더 ".")가 인자로 전달되지 않음
+# 확인: 에러 문구(PATH | URL | - 가 필요, requires 1 argument) + docker images 에 my-web 없음 → 해결: 공백을 넣어 docker build -t my-web:1.0 . 로 재실행하니 빌드 성공 (이 파일 맨 아래 "해결 후 검증")
+# 참고: cat dockerfile (소문자)로도 열림 = /mnt/c(윈도우 드라이브)는 대소문자를 구분하지 않기 때문. 입력 중 섞인 글자("docker i")는 결과에 영향 없음.
+
+pc@DESKTOP-QMSIH7V:/mnt/c/Users/PC/OneDrive/Desktop/vs code folder/cdy/codyssey/ALL_Chapter-1/ALL1_mission-01$ cat dockerfile
+# 베이스 이미지: 웹 서버(nginx)가 이미 들어 있는 가벼운 버전(alpine)을 가져온다
+FROM nginx:alpine
+
+# 이미지에 이름표(메타데이터)를 붙인다 (이미지 안의 동작은 안 바뀜)
+LABEL org.opencontainers.image.title="my-custom-nginx"
+
+# 환경 변수 하나를 추가한다 (컨테이너 안에서 APP_ENV=dev 로 보임)
+ENV APP_ENV=dev
+
+# 내 컴퓨터의 site/ 폴더 파일을 nginx가 웹페이지를 찾는 위치로 복사한다 (기본 페이지를 내 것으로 교체)
+COPY site/ /usr/share/nginx/html/
+pc@DESKTOP-QMSIH7V:/mnt/c/Users/PC/OneDrive/Desktop/vs code folder/cdy/codyssey/ALL_Chapter-1/ALL1_mission-01$ cat site/index.html
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">          <!-- 한글이 깨지지 않게 하는 설정 -->
+  <title>My Docker Workstation</title>
+</head>
+<body>
+  <h1>Hello from my custom nginx container!</h1>   <!-- 브라우저에 크게 보일 제목 -->
+  <p>Codyssey 올인원 과제 1 - Dockerfile로 만든 나만의 이미지</p>
+</body>
+</html>
+pc@DESKTOP-QMSIH7V:/mnt/c/Users/PC/OneDrive/Desktop/vs code folder/cdy/codyssey/ALL_Chapter-1/ALL1_mission-01$ docker build -t my-web:1.0.
+docker iERROR: docker: 'docker buildx build' requires 1 argument
+
+Usage:  docker buildx build [OPTIONS] PATH | URL | -
+
+Run 'docker buildx build --help' for more information
+pc@DESKTOP-QMSIH7V:/mnt/c/Users/PC/OneDrive/Desktop/vs code folder/cdy/codyssey/ALL_Chapter-1/ALL1_mission-01$ docker images
+                    i Info →   U  In Use
+IMAGE          ID             DISK USAGE
+hello-world:latest
+               c567b231f656       25.9kB
+ubuntu:latest
+               6a06111c3b0a        163MB
+pc@DESKTOP-QMSIH7V:/mnt/c/Users/PC/OneDrive/Desktop/vs code folder/cdy/codyssey/ALL_Chapter-1/ALL1_mission-01$
+
+# 해결 후 검증 (사용자 실행 원본). 공백을 넣어 다시 실행 → Building 7.9s (7/7) FINISHED, docker images 에 my-web:1.0 생성
+pc@DESKTOP-QMSIH7V:~/.../ALL1_mission-01$ docker build -t my-web:1.0 .
+[+] Building 7.9s (7/7) FINISHED docker:
+ => [internal] load build definit  0.2s
+ => [1/2] FROM docker.io/library/  3.7s
+ => [2/2] COPY site/ /usr/share/n  0.1s
+ => exporting to image             0.4s
+ (전체 출력은 logs/s3-build-run.txt 에 있음)
+pc@DESKTOP-QMSIH7V:~/.../ALL1_mission-01$ docker images
+IMAGE          ID             DISK USAGE
+hello-world:latest  c567b231f656  25.9kB
+my-web:1.0     7b3c1a2667ca       93.6MB
+ubuntu:latest  6a06111c3b0a       163MB

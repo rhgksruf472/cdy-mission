@@ -1,0 +1,49 @@
+# S3-1. 커스텀 이미지 빌드 (2026-11-05, 사용자 실행 원본, Ubuntu / bash / WSL2 + Docker Desktop 4.78.0)
+# 선택한 방식: (A) 웹 서버 베이스 이미지 활용 — nginx:alpine + 정적 콘텐츠(site/index.html) 교체
+# 관찰: 7단계 모두 FINISHED(7.9s), [1/2] FROM(베이스 이미지 pull) / [2/2] COPY(내 파일 복사) 단계가 Dockerfile 줄과 대응.
+#       docker images 에 my-web:1.0 (ID 7b3c1a2667ca, 93.6MB) 생성.
+# 참고: 첫 시도의 실패(공백 누락)는 logs/ts2-docker-build-missing-space.txt 참고.
+
+pc@DESKTOP-QMSIH7V:~/.../ALL1_mission-01$ docker build -t my-web:1.0 .
+[+] Building 7.9s (7/7) FINISHED docker:
+ => [internal] load build definit  0.2s
+ => => transferring dockerfi 604B  0.1s
+ => [internal] load metadata for   3.2s
+ => [internal] load .dockerignore  0.1s
+ => => transferring context: 2B    0.0s
+ => [internal] load build context  0.1s
+ => => transferring context: 454B  0.0s
+ => [1/2] FROM docker.io/library/  3.7s
+ => => resolve docker.io/library/  0.1s
+ => => sha256:9b0f7df 0B / 1.40kB  4.0s
+ => => sha256:26185d0 404B / 404B  0.8s
+ => => sha256:2ec 1.21kB / 1.21kB  0.8s
+ => => sha256:6570235 629B / 629B  0.3s
+ => => sha256:7cc3308 964B / 964B  0.3s
+ => => sha256:12b 1.94MB / 1.94MB  0.7s
+ => => sha256:7b2 3.85MB / 3.85MB  0.8s
+ => => extracting sha256:7b229517  0.4s
+ => => extracting sha256:12b85cff  0.2s
+ => => extracting sha256:65702355  0.0s
+ => => extracting sha256:7cc33089  0.0s
+ => => extracting sha256:26185d08  0.0s
+ => => extracting sha256:2ec5fb11  0.0s
+ => => extracting sha256:9b0f7dfe  0.0s
+ => => extracting sha256:b9b388a2  0.8s
+ => [2/2] COPY site/ /usr/share/n  0.1s
+ => exporting to image             0.4s
+ => => exporting layers            0.1s
+ => => exporting manifest sha256:  0.0s
+ => => exporting config sha256:3d  0.0s
+ => => exporting attestation mani  0.0s
+ => => exporting manifest list sh  0.0s
+ => => naming to docker.io/librar  0.0s
+ => => unpacking to docker.io/lib  0.0s
+pc@DESKTOP-QMSIH7V:~/.../ALL1_mission-01$ docker images
+                    i Info →   U  In Use
+IMAGE          ID             DISK USAGE
+hello-world:latest
+               c567b231f656       25.9kB
+my-web:1.0     7b3c1a2667ca       93.6MB
+ubuntu:latest
+               6a06111c3b0a        163MB

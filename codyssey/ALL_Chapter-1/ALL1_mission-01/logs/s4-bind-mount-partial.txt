@@ -1,0 +1,44 @@
+# S4-1 (부분 로그). 바인드 마운트 변경 후 비교 (2026-11-05, 사용자 실행 원본, Ubuntu / bash / WSL2 + Docker Desktop 4.78.0)
+# 관찰: site/index.html 의 <h1> 을 "Bind mount works" 로 수정·저장한 뒤
+#   - 8081 (바인드 마운트 컨테이너 my-web-bind) → 변경된 내용이 즉시 반영됨
+#   - 8080 (COPY로 구운 컨테이너 my-web-8080)   → 변경 전과 동일(반영 안 됨)
+# 한계: 이 로그에는 docker run -v 명령 자체와 8081의 "변경 전" curl 이 없음 → 다시 받아 s4-bind-mount.txt 로 완성 예정(과제 요구: 실행 명령 + 변경 전/후 비교)
+# 사용자 예측: "결과 바뀌지, 바뀐 결과를 복사했으니까" (8081/8080 구분은 불명확) → 실험 결과는 8081만 변경
+
+pc@DESKTOP-QMSIH7V:~/.../ALL1_mission-01$ curl http://localhost:8080
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">          <!-- 한글이 깨지지 않게 하는 설정 -->
+  <title>My Docker Workstation</title>
+</head>
+<body>
+  <h1>Hello from my custom nginx container!</h1>   <!-- 브라우저에 크게 보일 제목 -->
+  <p>Codyssey 올인원 과제 1 - Dockerfile로 만든 나만의 이미지</p>
+</body>
+</html>
+pc@DESKTOP-QMSIH7V:~/.../ALL1_mission-01$ curl http://localhost:8081
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">          <!-- 한글이 깨지지 않게 하는 설정 -->
+  <title>My Docker Workstation</title>
+</head>
+<body>
+  <h1>Bind mount works</h1>   <!-- 브라우저에 크게 보일 제목 -->
+  <p>Codyssey 올인원 과제 1 - Dockerfile로 만든 나만의 이미지</p>
+</body>
+</html>
+pc@DESKTOP-QMSIH7V:~/.../ALL1_mission-01$ curl http://localhost:8080
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">          <!-- 한글이 깨지지 않게 하는 설정 -->
+  <title>My Docker Workstation</title>
+</head>
+<body>
+  <h1>Hello from my custom nginx container!</h1>   <!-- 브라우저에 크게 보일 제목 -->
+  <p>Codyssey 올인원 과제 1 - Dockerfile로 만든 나만의 이미지</p>
+</body>
+</html>
+pc@DESKTOP-QMSIH7V:~/.../ALL1_mission-01$

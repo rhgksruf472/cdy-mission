@@ -27,3 +27,7 @@ Codyssey AI 교육 프로그램 챕터별 과제 산출물 저장소입니다. �
 ### Final Project
 
 - [식품업 신입 알바생을 위한 틈새 시간 알바 시뮬레이터](codyssey/final-project/README.md) (팀 과제 · 🟡 예습 단계 · 기획 단계)
+
+### 새 교육과정 — ALL Chapter 1
+
+- [ALL1 Mission 01 — 내 컴퓨터에 개발자용 '작업실' 꾸미기 (터미널 · Docker · Git)](codyssey/ALL_Chapter-1/ALL1_mission-01/README.md)

@@ -1,0 +1,58 @@
+# 트러블슈팅 1. WSL Ubuntu에서 docker 명령을 찾지 못함 (2026-11-05, 사용자 실행 원본)
+# 문제: docker --version 실행 시 "could not be found in this WSL 2 distro"
+# 원인 가설: Docker Desktop의 WSL integration이 새로 설치한 Ubuntu에 대해 꺼져 있음
+# 확인/해결: Docker Desktop > Settings > Resources > WSL integration의 Ubuntu 스위치를 껐다 켬(원래 상태는 확인하지 못함) 후,
+#            Ubuntu에서 docker --version 성공 (아래 "해결 후 검증"). 스크린샷: ../screenshots/ts1-docker-desktop-wsl-integration-ubuntu-on.png
+# 참고: 두 번째 명령은 `|` 대신 `l`을 입력한 오타였음 (docker 미탐지라 결과에는 영향 없음)
+
+pc@DESKTOP-QMSIH7V:~/codyssey/practice$ docker --version
+
+The command 'docker' could not be found in this WSL 2 distro.
+We recommend to activate the WSL integration in Docker Desktop settings.
+
+For details about using Docker Desktop with WSL 2, visit:
+
+https://docs.docker.com/go/wsl2/
+
+pc@DESKTOP-QMSIH7V:~/codyssey/practice$ docker info l head -30
+
+The command 'docker' could not be found in this WSL 2 distro.
+We recommend to activate the WSL integration in Docker Desktop settings.
+
+For details about using Docker Desktop with WSL 2, visit:
+
+https://docs.docker.com/go/wsl2/
+
+pc@DESKTOP-QMSIH7V:~/codyssey/practice$
+
+# 가설 보강 증거. 같은 명령을 윈도우 PowerShell에서 실행 (사용자 실행 원본, Ubuntu가 아님!)
+# 관찰: 윈도우에서는 docker가 동작(Docker version 29.5.3) → Docker는 설치돼 있고, Ubuntu 쪽 연결만 빠진 것으로 보임
+# 참고: head는 리눅스 명령이라 PowerShell에는 없음 (CommandNotFoundException). 이 29.5.3은 윈도우 쪽 버전이므로 README 공식 값은 Ubuntu에서 다시 측정.
+(.venv) PS C:\Users\PC\OneDrive\Desktop\vs code folder\cdy> docker --version
+Docker version 29.5.3, build d1c06ef
+(.venv) PS C:\Users\PC\OneDrive\Desktop\vs code folder\cdy> docker info l head -30
+unknown shorthand flag: '3' in -30
+
+Usage:  docker info [OPTIONS]
+
+Run 'docker info --help' for more information
+(.venv) PS C:\Users\PC\OneDrive\Desktop\vs code folder\cdy> docker info | head -30
+head : 'head' 용어가 cmdlet, 함수, 스크립트 파일 또는 실행할 수 있는 프로그램 이름으로 인식되지 않습니다.
+(이하 CommandNotFoundException, 같은 에러 2회 반복)
+
+# 해결 후 검증. PowerShell에서 wsl -d ubuntu로 Ubuntu에 진입해 같은 명령 실행 (사용자 실행 원본)
+# 관찰: Ubuntu에서도 Docker version 29.5.3 이 출력됨 → WSL integration 연결 성공
+# 한계: docker info | head -30 은 Client(플러그인 목록)에서 끊겨 Server(데몬) 상태는 아직 미확인 → S2에서 별도 확인
+(.venv) PS C:\Users\PC\OneDrive\Desktop\vs code folder\cdy> wsl -d ubuntu
+pc@DESKTOP-QMSIH7V:/mnt/c/Users/PC/OneDrive/Desktop/vs code folder/cdy$ cd ~
+pc@DESKTOP-QMSIH7V:~$ docker --version
+Docker version 29.5.3, build d1c06ef
+pc@DESKTOP-QMSIH7V:~$ docker info | head -30
+Client:
+ Version:    29.5.3
+ Context:    default
+ Debug Mode: false
+ Plugins:
+  agent: Docker AI Agent Runner (Docker Inc.)
+  ... (이하 플러그인 목록 30줄에서 잘림: ai, buildx v0.34.1-desktop.1, compose v5.1.4, debug, desktop, dhi, extension, init)
+pc@DESKTOP-QMSIH7V:~$

@@ -1,0 +1,36 @@
+# S4-2. Docker 볼륨 영속성 검증 (2026-11-05, 사용자 실행 원본, Ubuntu / bash / WSL2 + Docker Desktop 4.78.0)
+# 구성: 볼륨 mydata 를 컨테이너의 /data 에 연결. 같은 컨테이너 안에서 /data/hello.txt(볼륨) 와 /tmp/lost.txt(볼륨 아님) 두 파일을 생성.
+# 관찰: 컨테이너(vol-test) 삭제 후, 같은 볼륨을 연결한 새 컨테이너(vol-test2)에서
+#   - /data/hello.txt → 내용 "hi" 가 그대로 남아 있음 (볼륨에 저장된 데이터는 컨테이너 삭제 후에도 유지)
+#   - /tmp/lost.txt   → "No such file or directory" (볼륨 밖 데이터는 컨테이너와 함께 사라짐)
+# (사용자는 실행 전 남는다/사라진다 예측을 파일별로 따로 적지 않고 출력만 공유함)
+# 참고: docker ps -a 출력에서 vol-test 는 삭제되어 목록에 없음(삭제 후 확인). 다른 컨테이너 줄은 앞 실습의 잔존 컨테이너.
+
+pc@DESKTOP-QMSIH7V:~/.../ALL1_mission-01$ docker volume create mydata
+mydata
+pc@DESKTOP-QMSIH7V:~/.../ALL1_mission-01$ docker volume ls
+DRIVER    VOLUME NAME
+local     mydata
+pc@DESKTOP-QMSIH7V:~/.../ALL1_mission-01$ docker run -d --name vol-test -v mydata:/data ubuntu sleep infinity
+b470b7cee83adc1ad0da5215c5039212a1fab1f29f3941a37f9420a70d72ad54
+pc@DESKTOP-QMSIH7V:~/.../ALL1_mission-01$ docker exec -it vol-test bash -lc "echo hi > /data/hello.txt; echo bye > /tmp/lost.txt; cat /data/hello.txt /tmp/lost.txt"
+hi
+bye
+pc@DESKTOP-QMSIH7V:~/.../ALL1_mission-01$ docker rm -f vol-test
+vol-test
+pc@DESKTOP-QMSIH7V:~/.../ALL1_mission-01$ docker ps -a
+CONTAINER ID   IMAGE         COMMAND                  CREATED          STATUS                        PORTS                                     NAMES
+b89d4226a78f   my-web:1.0    "/docker-entrypoint.…"   5 minutes ago    Up 5 minutes                  0.0.0.0:8081->80/tcp, [::]:8081->80/tcp   my-web-bind
+375202e7a208   my-web:1.0    "/docker-entrypoint.…"   11 minutes ago   Up 11 minutes                 0.0.0.0:8080->80/tcp, [::]:8080->80/tcp   my-web-8080
+44f4522112c6   my-web:1.0    "/docker-entrypoint.…"   12 minutes ago   Up 12 minutes                 80/tcp                                    my-web-nomap
+44c4994a0c6d   ubuntu        "bash -c 'while true…"   25 minutes ago   Exited (137) 24 minutes ago                                             my-logger
+47cb6213e644   ubuntu        "bash"                   35 minutes ago   Exited (0) 34 minutes ago                                               my-ubuntu2
+c1c4329eab6d   ubuntu        "bash"                   40 minutes ago   Exited (0) 39 minutes ago                                               my-ubuntu
+f81b23e08ef8   hello-world   "/hello"                 42 minutes ago   Exited (0) 42 minutes ago                                               exciting_shannon
+1114b566f875   hello-world   "/hello"                 44 minutes ago   Exited (0) 44 minutes ago                                               jolly_khayyam
+pc@DESKTOP-QMSIH7V:~/.../ALL1_mission-01$ docker run -d --name vol-test2 -v mydata:/data ubuntu sleep infinity
+ceb792e463184db002e7a011e10745d1e794637deb022114f0dbdef384dd9669
+pc@DESKTOP-QMSIH7V:~/.../ALL1_mission-01$ docker exec -it vol-test2 bash -lc "cat /data/hello.txt; cat /tmp/lost.txt"
+hi
+cat: /tmp/lost.txt: No such file or directory
+pc@DESKTOP-QMSIH7V:~/.../ALL1_mission-01$

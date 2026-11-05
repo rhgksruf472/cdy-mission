@@ -1,0 +1,27 @@
+# S2-3 보충. exec와 attach의 차이 관찰 (2026-11-05, 사용자 실행 원본, Ubuntu / bash / WSL2 + Docker Desktop 4.78.0)
+# 관찰: docker run -dit 로 띄운 컨테이너(my-ubuntu2)에 대해
+#   - exec로 들어갔다가 exit → 컨테이너는 Up(계속 실행 중) : exec는 "새 bash"를 추가로 연 것이라 그것만 끝남
+#   - attach로 들어갔다가 exit → 컨테이너는 Exited (0) : attach는 컨테이너의 "원래 bash(메인 프로세스)"에 연결한 것이라 exit하면 메인이 끝나 컨테이너도 종료
+# (사용자는 실행 전 예측을 따로 적지 않고 출력만 공유함)
+
+pc@DESKTOP-QMSIH7V:~$ docker run -dit --name my-ubuntu2 ubuntu bash
+47cb6213e64469a66ce8fc3e366491e25880bb3d15581c032a2d276246f6668a
+pc@DESKTOP-QMSIH7V:~$ docker ps
+CONTAINER ID   IMAGE     COMMAND   CREATED         STATUS         PORTS     NAMES
+47cb6213e644   ubuntu    "bash"    6 seconds ago   Up 6 seconds             my-ubuntu2
+pc@DESKTOP-QMSIH7V:~$ docker exec -it my-ubuntu2 bash
+root@47cb6213e644:/# exit
+exit
+pc@DESKTOP-QMSIH7V:~$ docker ps
+CONTAINER ID   IMAGE     COMMAND   CREATED          STATUS          PORTS     NAMES
+47cb6213e644   ubuntu    "bash"    30 seconds ago   Up 30 seconds             my-ubuntu2
+pc@DESKTOP-QMSIH7V:~$ docker attach my-ubuntu2
+root@47cb6213e644:/# exit
+exit
+pc@DESKTOP-QMSIH7V:~$ docker ps -a
+CONTAINER ID   IMAGE         COMMAND    CREATED          STATUS                      PORTS     NAMES
+47cb6213e644   ubuntu        "bash"     55 seconds ago   Exited (0) 4 seconds ago              my-ubuntu2
+c1c4329eab6d   ubuntu        "bash"     5 minutes ago    Exited (0) 4 minutes ago              my-ubuntu
+f81b23e08ef8   hello-world   "/hello"   7 minutes ago    Exited (0) 7 minutes ago              exciting_shannon
+1114b566f875   hello-world   "/hello"   10 minutes ago   Exited (0) 10 minutes ago             jolly_khayyam
+pc@DESKTOP-QMSIH7V:~$

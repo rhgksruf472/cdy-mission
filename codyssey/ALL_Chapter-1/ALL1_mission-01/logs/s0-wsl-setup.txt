@@ -1,0 +1,10 @@
+# S0. WSL Ubuntu 설치 후 환경 확인 (2026-11-05, 사용자 실행 원본)
+
+y: command not found
+pc@DESKTOP-QMSIH7V:/mnt/c/Users/PC/OneDrive/Desktop/vs code folder/cdy$
+pc@DESKTOP-QMSIH7V:/mnt/c/Users/PC/OneDrive/Desktop/vs code folder/cdy$ cat /etc/os-release | head -2
+PRETTY_NAME="Ubuntu 26.04.1 LTS"
+NAME="Ubuntu"
+pc@DESKTOP-QMSIH7V:/mnt/c/Users/PC/OneDrive/Desktop/vs code folder/cdy$ echo $SHELL
+/bin/bash
+pc@DESKTOP-QMSIH7V:/mnt/c/Users/PC/OneDrive/Desktop/vs code folder/cdy$
