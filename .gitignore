@@ -15,3 +15,11 @@ firebase-key.json
 codyssey/chapter-2/C2_project-A/team-guide/
 # 팀 프로젝트 저장소 - 별도 git 저장소로 clone됨 (cdy 저장소에 중첩 포함 방지)
 codyssey/final-project/Final-Proj/
+
+# 브레인스토밍 화면 목업 (로컬 전용)
+.superpowers/
+
+# 소개 영상 레퍼런스(유료 이미지 워터마크·개인 화면 포함)와 렌더 중간 파일 — 로컬 전용
+codyssey/final-project/intro-video/refs/
+codyssey/final-project/intro-video/build/
+codyssey/final-project/intro-video/handoff/
