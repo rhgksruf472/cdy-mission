@@ -16,6 +16,9 @@ codyssey/chapter-2/C2_project-A/team-guide/
 # 팀 프로젝트 저장소 - 별도 git 저장소로 clone됨 (cdy 저장소에 중첩 포함 방지)
 codyssey/final-project/Final-Proj/
 
+# 올인원 과정 저장소 - 별도 git 저장소(Codyssey-Allinone)로 clone됨 (cdy 저장소에 중첩 포함 방지)
+Codyssey-Allinone/
+
 # 브레인스토밍 화면 목업 (로컬 전용)
 .superpowers/
 
@@ -23,3 +26,10 @@ codyssey/final-project/Final-Proj/
 codyssey/final-project/intro-video/refs/
 codyssey/final-project/intro-video/build/
 codyssey/final-project/intro-video/handoff/
+# 15초 홍보 영상: 레퍼런스(다른 회사 광고 영상) · 렌더 중간 파일 · 팀 코드와 글꼴 사본(tools/sync-vendor.mjs로 다시 받음) — 로컬 전용
+codyssey/final-project/intro-video/rf/
+codyssey/final-project/intro-video/promo/build/
+codyssey/final-project/intro-video/promo/vendor/
+# 40초 실제 화면 영상: 렌더 중간 파일 · 팀 앱 코드 사본(tools/export-app.mjs) · 플로로와 글꼴 사본(tools/sync-vendor.mjs) — 로컬 전용. 녹화 장면은 OneDrive 밖(%LOCALAPPDATA%/floe-video)
+codyssey/final-project/intro-video/realscreen-40s/build/
+codyssey/final-project/intro-video/realscreen-40s/vendor/

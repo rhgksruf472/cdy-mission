@@ -30,4 +30,6 @@ Codyssey AI 교육 프로그램 챕터별 과제 산출물 저장소입니다. �
 
 ### 새 교육과정 — ALL Chapter 1
 
-- [ALL1 Mission 01 — 내 컴퓨터에 개발자용 '작업실' 꾸미기 (터미널 · Docker · Git)](codyssey/ALL_Chapter-1/ALL1_mission-01/README.md)
+올인원 과정 과제는 별도 저장소에서 관리합니다 → [Codyssey-Allinone](https://github.com/rhgksruf472/Codyssey-Allinone)
+
+- [ALL1 Mission 01 — 내 컴퓨터에 개발자용 '작업실' 꾸미기 (터미널 · Docker · Git)](https://github.com/rhgksruf472/Codyssey-Allinone/blob/main/ALL_Chapter-1/ALL1_mission-01/README.md)
